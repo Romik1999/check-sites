@@ -13,6 +13,6 @@ class Site extends Model
         'name',
         'url',
         'active',
-        'timestamps',
+        'timestamps'
     ];
 }
