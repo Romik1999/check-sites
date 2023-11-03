@@ -19,17 +19,18 @@ class AuthController extends Controller
 
         if(auth()->attempt($user)){
             $token = auth()->user()->createToken('api_token')->accessToken;
-            return response()->json(['token' => $token,], 200);
+            return response()->json(['token' => $token]);
         }else{
             return response()->json(['error' => 'Неверные данные'], 401);
         }
     }
 
-    public function logout(AuthRequest $request){
+    public function logout(Request $request){
+        
         if($request->user()){
             $request->user()->tokens()->delete();
         }
 
-        return response()->json(['Успшено вышли из системы', 200]);
+        return response()->json(['success' =>'Успшено вышли из системы'], 200);
     }
 }
