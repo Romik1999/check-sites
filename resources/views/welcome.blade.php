@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel 10 vite with React</title>
+    <title>Check site</title>
 
     @viteReactRefresh
     @vite('resources/js/index.tsx')
