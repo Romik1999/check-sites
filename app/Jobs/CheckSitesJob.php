@@ -8,6 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\Http;
 use Spatie\Valuestore\Valuestore;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +37,7 @@ class CheckSitesJob implements ShouldQueue
         $settings = Valuestore::make(storage_path('app/settings.json'));
         $check_enabled = $settings->get('check_enabled');
 
-        if ($check_enabled === 1) {
+        if($check_enabled === 0){
             $response = Http::get($this->site->url);
 
             $log = new Log([
@@ -43,12 +45,15 @@ class CheckSitesJob implements ShouldQueue
                 'response_code' => $response->status(),
                 'response_body' => $response->body(),
             ]); 
+
             $log->save();
             
+            \Log::channel('check_log_success')->info('Проверка сайтов успешно работает');
+        }else{
 
-            \Log::channel('check_log_success')->info('Проверка сайтов работает', ['status' => $response->status()]);
-        } else {
-            \Log::channel('check_log_error')->info('Проверка сайтов не работает', ['status' => 404]);
+            \Log::channel('check_log_error')->info('Обнаружена ошибка при проверке сайтов');
+
+            Notification::route('telegram', env('TELEGRAM_CHAT_ID'))->notify(new TelegramNotification);
         }
     }
 }
