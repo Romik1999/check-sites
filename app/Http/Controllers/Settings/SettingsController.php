@@ -23,7 +23,7 @@ class SettingsController extends Controller
         ]);
     }
 
-    public function update(Request $request){
+    public function update(TelegramRequest $request){
         $settings = Valuestore::make(storage_path('app/settings.json'));
         $settings->put('check_enabled', 1);
         $settings->put('telegram_enabled', 1);
