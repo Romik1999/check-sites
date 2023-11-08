@@ -7,7 +7,8 @@ import Logs from "./pages/logs";
 import Layout from "./components/layout";
 import theme from "./theme";
 import {ThemeProvider} from "@mui/material/styles";
-import Login from "./pages/login";
+import PrivateRoute from "./utils/router/privateRoute";
+import AuthRootComponent from "./components/auth";
 
 function App() {
     return (
@@ -15,11 +16,14 @@ function App() {
             <Layout>
                 <div className="App">
                     <Routes>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/settings" element={<Settings/>}/>
-                        <Route path="/logs" element={<Logs/>}/>
-                        <Route path="/users" element={<Users/>}/>
-                        <Route path="/login" element={<Login/>}/>
+                        <Route element={<PrivateRoute/>}>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="settings" element={<Settings/>}/>
+                            <Route path="logs" element={<Logs/>}/>
+                            <Route path="users" element={<Users/>}/>
+                        </Route>
+                        <Route path="login" element={<AuthRootComponent/>}/>
+                        <Route path="register" element={<AuthRootComponent/>}/>
                     </Routes>
                 </div>
             </Layout>

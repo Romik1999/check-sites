@@ -10,6 +10,10 @@ const theme = createTheme({
             main: green[500],
         },
     },
+    typography: {
+        fontFamily: ['Roboto', 'sans-serif'].join(','),
+        fontSize: 14,
+    },
 });
 
 export default theme
