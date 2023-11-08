@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import LoginPage from "./login";
 import RegisterPage from "./register";
 import {Box} from "@mui/material";
-import axios from "axios";
+import {instance} from "../../utils/axios";
 
 const AuthRootComponent = () => {
     const [email, setEmail] = useState('')
@@ -17,8 +17,7 @@ const AuthRootComponent = () => {
             email,
             password
         }
-        console.log(userData);
-        const user = await axios.post('api/login', userData)
+        const user = await instance.post('login', userData)
         console.log(user.data);
     }
 
