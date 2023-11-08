@@ -7,7 +7,7 @@ const Layout = ({children} : {children:React.ReactNode}) => {
     const location = useLocation()
 
     return (
-        location.pathname === '/login' ? (
+        location.pathname === '/login' || location.pathname === '/register' ? (
         <>
             {children}
         </>

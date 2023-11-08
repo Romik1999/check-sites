@@ -1,6 +1,4 @@
 import React from 'react';
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import axios from "axios";
 
 const Home = () => {
     return (

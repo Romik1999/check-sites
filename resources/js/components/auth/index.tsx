@@ -6,6 +6,7 @@ import {Box} from "@mui/material";
 import {instance} from "../../utils/axios";
 import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
+import {AppErrors} from "../../common/errors";
 
 const AuthRootComponent: React.FC = (): JSX.Element => {
     const [email, setEmail] = useState('')
@@ -42,7 +43,7 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
                 const newUser = await instance.post('register', userData)
                 console.log(newUser);
             } else {
-                throw new Error('У вас не совпадают пароли')
+                throw new Error(AppErrors.PasswordDoNotMatch)
             }
         }
     }
@@ -65,14 +66,18 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
                 <form onSubmit={handleSubmit}>
                     {
                         location.pathname === '/login'
-                            ? <LoginPage setEmail={setEmail}
-                                         setPassword={setPassword}/> : location.pathname === '/register'
+                            ? <LoginPage
+                                setEmail={setEmail}
+                                setPassword={setPassword}
+                                navigate={navigate}
+                            /> : location.pathname === '/register'
                                 ? <RegisterPage
                                     setEmail={setEmail}
                                     setPassword={setPassword}
                                     setRepeatPassword={setRepeatPassword}
                                     setFirstName={setFirstName}
                                     setUserName={setUserName}
+                                    navigate={navigate}
                                 />
                                 : null
                     }

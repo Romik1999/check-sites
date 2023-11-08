@@ -2,8 +2,8 @@ import React from 'react';
 import {Button, TextField, Typography} from "@mui/material";
 import {IPropsLogin} from "../../../common/types/auth";
 
-const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin):JSX.Element => {
-    const {setPassword, setEmail} = props
+const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
+    const {setPassword, setEmail, navigate} = props
     return (
         <>
             <Typography variant="h2" textAlign="center">Авторизация</Typography>
@@ -23,6 +23,7 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin):JSX.Element => {
             >
                 Войти
             </Button>
+            <Typography onClick={() => navigate('/register')}>Регистрация</Typography>
         </>
     );
 };
