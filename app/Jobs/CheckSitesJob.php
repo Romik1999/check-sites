@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Http;
 use Spatie\Valuestore\Valuestore;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Log;
+use App\Models\Site;
 
 class CheckSitesJob implements ShouldQueue
 {
@@ -24,9 +25,9 @@ class CheckSitesJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($site)
+    public function __construct()
     {
-        $this->site = $site;
+
     }
 
     /**
@@ -34,26 +35,35 @@ class CheckSitesJob implements ShouldQueue
      */
     public function handle()
     {
-        $settings = Valuestore::make(storage_path('app/settings.json'));
+        $settings = ValueStore::make(storage_path('app/settings.json'));
         $check_enabled = $settings->get('check_enabled');
 
-        if($check_enabled === 0){
-            $response = Http::get($this->site->url);
+        if($settings->get('check_enabled') === 1){
+            $sites = Site::all();
 
-            $log = new Log([
-                'site_id' => $this->site->id,
-                'response_code' => $response->status(),
-                'response_body' => $response->body(),
-            ]); 
+            foreach($sites as $site){
+                $response = Http::get('https://example.com/');
 
-            $log->save();
-            
-            \Log::channel('check_log_success')->info('Проверка сайтов успешно работает');
+                $log = new Log([
+                    'site_id' => $site->id,
+                    'response_code' => $response->status(),
+                    'response_body' => $response->body(),
+                ]);
+                $log->save();
+
+                if($response->ok()){
+                    $message = 'Проверка сайта ' . $site->url . ' завершилась неудачно. HTTP-статус: ' . $response->status();
+                    Notification::route('telegram', env('TELEGRAM_CHAT_ID'))->notify(new TelegramNotification($message));
+                    $log = new Log([
+                        'site_id' => $site->id,
+                        'response_code' => $response->status(),
+                        'response_body' => $response->body(),
+                    ]);
+                    $log->save();
+                }
+            }
         }else{
-
-            \Log::channel('check_log_error')->info('Обнаружена ошибка при проверке сайтов');
-
-            Notification::route('telegram', env('TELEGRAM_CHAT_ID'))->notify(new TelegramNotification);
+            return response()->json('Проверка не включена');
         }
     }
 }
