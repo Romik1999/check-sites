@@ -7,6 +7,12 @@ import {instance} from "../../utils/axios";
 import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
 import {AppErrors} from "../../common/errors";
+import loginLogo from "../../assets/img/login-logo.svg"
+import loginImage from "../../assets/img/login-image.svg"
+
+import {
+    Auth, AuthForm, AuthFormInner, AuthInfo,
+} from "./styled";
 
 const AuthRootComponent: React.FC = (): JSX.Element => {
     const [email, setEmail] = useState('')
@@ -49,41 +55,35 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
     }
 
     return (
-        <Box className="auth"
-             sx={{
-                 display: "flex",
-                 width: "100%"
-             }}
-        >
-            <Box
-                maxWidth="600px"
-                width="100%"
-                margin="auto"
-                display="flex"
-                flexDirection="column"
-                rowGap="15px"
-            >
-                <form onSubmit={handleSubmit}>
-                    {
-                        location.pathname === '/login'
-                            ? <LoginPage
-                                setEmail={setEmail}
-                                setPassword={setPassword}
-                                navigate={navigate}
-                            /> : location.pathname === '/register'
-                                ? <RegisterPage
+        <Auth>
+            <AuthInfo>
+                <img className="auth__logo" src={loginLogo} alt="logo"/>
+                <img className="auth__img" src={loginImage} alt="logo"/>
+            </AuthInfo>
+            <AuthForm>
+                <AuthFormInner>
+                    <form onSubmit={handleSubmit}>
+                        {
+                            location.pathname === '/login'
+                                ? <LoginPage
                                     setEmail={setEmail}
                                     setPassword={setPassword}
-                                    setRepeatPassword={setRepeatPassword}
-                                    setFirstName={setFirstName}
-                                    setUserName={setUserName}
                                     navigate={navigate}
-                                />
-                                : null
-                    }
-                </form>
-            </Box>
-        </Box>
+                                /> : location.pathname === '/register'
+                                    ? <RegisterPage
+                                        setEmail={setEmail}
+                                        setPassword={setPassword}
+                                        setRepeatPassword={setRepeatPassword}
+                                        setFirstName={setFirstName}
+                                        setUserName={setUserName}
+                                        navigate={navigate}
+                                    />
+                                    : null
+                        }
+                    </form>
+                </AuthFormInner>
+            </AuthForm>
+        </Auth>
     );
 };
 
