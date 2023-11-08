@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, TextField, Typography} from "@mui/material";
+import {IPropsLogin} from "../../../common/types/auth";
 
-const LoginPage = (props: any) => {
+const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin):JSX.Element => {
     const {setPassword, setEmail} = props
     return (
         <>
@@ -12,7 +13,7 @@ const LoginPage = (props: any) => {
                 fullWidth
             />
             <TextField
-                label="Password" variant="outlined" placeholder="Введите ваш пароль"
+                label="Password" type="password" variant="outlined" placeholder="Введите ваш пароль"
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
             />

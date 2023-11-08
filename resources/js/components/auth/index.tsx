@@ -5,20 +5,37 @@ import RegisterPage from "./register";
 import {Box} from "@mui/material";
 import {instance} from "../../utils/axios";
 
-const AuthRootComponent = () => {
+const AuthRootComponent: React.FC = ():JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [userName, setUserName] = useState('')
     const location = useLocation()
-
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const userData = {
-            email,
-            password
+        if (location.pathname === '/login'){
+            const userData = {
+                email,
+                password
+            }
+            const user = await instance.post('login', userData)
+            console.log(user.data);
+        } else {
+            if (password === repeatPassword){
+                const userData = {
+                    firstName,
+                    userName,
+                    email,
+                    password
+                }
+                const newUser = await instance.post('register', userData)
+                console.log(newUser);
+            } else{
+                throw new Error('У вас не совпадают пароли')
+            }
         }
-        const user = await instance.post('login', userData)
-        console.log(user.data);
     }
 
     return (
@@ -37,9 +54,18 @@ const AuthRootComponent = () => {
                 rowGap="15px"
             >
                 <form onSubmit={handleSubmit}>
-                    {location.pathname === '/login' ?
-                        <LoginPage setEmail={setEmail} setPassword={setPassword}/> : location.pathname === '/register' ?
-                            <RegisterPage/> : null}
+                    {
+                        location.pathname === '/login'
+                            ? <LoginPage setEmail={setEmail} setPassword={setPassword}/> : location.pathname === '/register'
+                                ? <RegisterPage
+                                    setEmail={setEmail}
+                                    setPassword={setPassword}
+                                    setRepeatPassword={setRepeatPassword}
+                                    setFirstName={setFirstName}
+                                    setUserName={setUserName}
+                                />
+                                : null
+                    }
                 </form>
             </Box>
         </Box>
