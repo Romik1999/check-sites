@@ -17,6 +17,7 @@ class SettingsController extends Controller
 
         return response()->json([
             'check_enabled' => $check_enabled,
+            'telegram_enabled' => $telegram_enabled,
             'telegram_token' => $telegram_token,
             'telegram_chat_id' => $telegram_chat_id,
         ]);
