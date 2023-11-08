@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,10 @@ class Site extends Model
         'name',
         'url',
         'active',
-        'timestamps'
     ];
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('active', true);
+    } // scopeActive
 }

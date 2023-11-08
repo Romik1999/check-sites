@@ -17,8 +17,13 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->text('response_code');
-            $table->text('response_body');
+            $table->json('response_body');
             $table->timestamps();
+
+            // Индексация
+            $table->index('created_at');
+            $table->index('site_id');
+            $table->index('response_code');
         });
     }
 
