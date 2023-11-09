@@ -9,7 +9,7 @@ import {AppErrors} from "../../common/errors";
 import loginLogo from "../../assets/img/login-logo.svg"
 import loginImage from "../../assets/img/login-image.svg"
 import {
-    Auth, AuthForm, AuthFormInner, AuthInfo,
+    Auth, AuthForm, AuthFormForm, AuthFormInner, AuthInfo,
 } from "./styled";
 
 const AuthRootComponent: React.FC = (): JSX.Element => {
@@ -56,11 +56,12 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
         <Auth>
             <AuthInfo>
                 <img className="auth__logo" src={loginLogo} alt="logo"/>
-                <img className="auth__img" src={loginImage} alt="logo"/>
+                <img className="auth__img" src={loginImage} alt="img"/>
             </AuthInfo>
             <AuthForm>
+                <img className="auth__logo" src={loginLogo} alt="logo"/>
                 <AuthFormInner>
-                    <form onSubmit={handleSubmit}>
+                    <AuthFormForm onSubmit={handleSubmit}>
                         {
                             location.pathname === '/login'
                                 ? <LoginPage
@@ -78,7 +79,7 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
                                     />
                                     : null
                         }
-                    </form>
+                    </AuthFormForm>
                 </AuthFormInner>
             </AuthForm>
         </Auth>

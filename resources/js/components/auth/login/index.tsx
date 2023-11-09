@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, TextField, Typography} from "@mui/material";
 import {IPropsLogin} from "../../../common/types/auth";
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
     const {setPassword, setEmail} = props
+
+    const [type, setType] = useState('password')
+
     return (
         <>
-            <Typography variant="h2" textAlign="center">Авторизация</Typography>
+            <Typography variant="h6" textAlign="center">Sign in to your account</Typography>
             <TextField
                 label="Email" variant="outlined" placeholder="Введите ваш email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -20,8 +23,9 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
             <Button
                 variant="contained"
                 type="submit"
+                fullWidth
             >
-                Войти
+                Sign In
             </Button>
         </>
     );

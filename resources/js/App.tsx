@@ -5,15 +5,17 @@ import Settings from "./pages/settings";
 import Users from "./pages/users";
 import Logs from "./pages/logs";
 import Layout from "./components/layout";
-import theme from "./theme";
 import {ThemeProvider} from "@mui/material/styles";
 import PrivateRoute from "./utils/router/privateRoute";
 import AuthRootComponent from "./components/auth";
+import THEME from "./theme";
+import {CssBaseline} from "@mui/material";
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={THEME}>
             <Layout>
+                <CssBaseline/>
                 <div className="App">
                     <Routes>
                         <Route element={<PrivateRoute/>}>
