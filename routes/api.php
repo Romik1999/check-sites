@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SitesController;
+use App\Http\Controllers\Api\CheckController;
 use App\Http\Controllers\Api\LogsController;
 
 /*
@@ -17,12 +18,14 @@ use App\Http\Controllers\Api\LogsController;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('logout.middleware');
 
 Route::apiResource('logs', LogsController::class)->only([
     'index'
 ]);
+
+Route::get('/check', [CheckController::class, 'index']);
 
 Route::apiResource('sites', SitesController::class)->only([
     'index', 'store', 'update', 'destroy'
