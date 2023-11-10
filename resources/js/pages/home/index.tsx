@@ -8,11 +8,14 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 const Home = () => {
 
-    const {isLoading, data} = useQuery({
+    const {isLoading, error, data} = useQuery({
         queryKey: [queryKey.product.cards],
         queryFn: () => SitesService.getAll(),
         select: ({data}) => data
     })
+
+    if (isLoading) return "Loading...";
+    if (error) return "An error has occurred: " + error.message;
 
     return (
         <div className="home">
