@@ -7,9 +7,9 @@ interface IData {
     active: boolean,
 }
 
-export const sitesService = {
+export const SitesService = {
     async getAll() {
-        return axios.get<IData[]>('/api/sites')
+        return axios.get('/api/sites')
     },
     async updateSite(id: number) {
         return axios.get(`/api/sites/update/${id}`)

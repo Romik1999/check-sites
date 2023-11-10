@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import LoginPage from "./login";
-import RegisterPage from "./register";
 import {instance} from "../../utils/axios";
 import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
-import {AppErrors} from "../../common/errors";
 import loginLogo from "../../assets/img/login-logo.svg"
 import loginImage from "../../assets/img/login-image.svg"
 import {
@@ -15,9 +13,6 @@ import {
 const AuthRootComponent: React.FC = (): JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [repeatPassword, setRepeatPassword] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [userName, setUserName] = useState('')
     const location = useLocation()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -35,19 +30,6 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
                 navigate('/')
             } catch (e) {
                 return e
-            }
-        } else {
-            if (password === repeatPassword) {
-                const userData = {
-                    firstName,
-                    userName,
-                    email,
-                    password
-                }
-                const newUser = await instance.post('register', userData)
-                console.log(newUser);
-            } else {
-                throw new Error(AppErrors.PasswordDoNotMatch)
             }
         }
     }
@@ -68,16 +50,7 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
                                     setEmail={setEmail}
                                     setPassword={setPassword}
                                     navigate={navigate}
-                                /> : location.pathname === '/register'
-                                    ? <RegisterPage
-                                        setEmail={setEmail}
-                                        setPassword={setPassword}
-                                        setRepeatPassword={setRepeatPassword}
-                                        setFirstName={setFirstName}
-                                        setUserName={setUserName}
-                                        navigate={navigate}
-                                    />
-                                    : null
+                                /> : null
                         }
                     </AuthFormForm>
                 </AuthFormInner>

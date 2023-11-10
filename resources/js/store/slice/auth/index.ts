@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IAuthState} from "../../../common/types/auth";
+import Cookies from "js-cookie"
 
 const initialState: IAuthState = {
     user: {
@@ -19,6 +20,8 @@ export const authSlice = createSlice({
     reducers: {
         login(state, action) {
             state.user = action.payload
+            // поставить в токен - токен который приходит с бека
+            Cookies.set("token")
             state.isLogged = true
         }
     }

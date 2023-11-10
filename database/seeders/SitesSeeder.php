@@ -13,10 +13,12 @@ class SitesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sites')->insert([
-            'name' => 'Example',
-            'url' => 'http://example.ru',
-            'active' => true,
-        ]);
+        for ($i = 1; $i < 10; $i++) {
+            DB::table('sites')->insert([
+                'name' => 'Example ' . $i,
+                'url' => 'http://example-' . $i . '.ru',
+                'active' => rand(true, false),
+            ]);
+        }
     }
 }
