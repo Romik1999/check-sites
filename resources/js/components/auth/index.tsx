@@ -21,7 +21,7 @@ const AuthRootComponent: React.FC = (): JSX.Element => {
 
     const {mutate, data} = useMutation({
         mutationKey: ['user'],
-        mutationFn: (userData) => UserService.login(email, password),
+        mutationFn: () => UserService.login(email, password),
         onSuccess(){
             dispatch(login(data))
             navigate('/')
