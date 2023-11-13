@@ -1,13 +1,7 @@
 import React, {useEffect} from 'react';
-import {Route, Routes, useNavigate} from "react-router-dom";
-import Home from './pages/home';
-import Settings from "./pages/settings";
-import Users from "./pages/users";
-import Logs from "./pages/logs";
+import {useNavigate} from "react-router-dom";
 import Layout from "./components/layout";
 import {ThemeProvider} from "@mui/material/styles";
-import PrivateRoute from "./utils/router/privateRoute";
-import AuthRootComponent from "./components/auth";
 import THEME from "./theme";
 import {CssBaseline} from "@mui/material";
 import {instance} from "./utils/axios";
