@@ -14,6 +14,7 @@ import {instance} from "./utils/axios";
 import {login} from "./store/slice/auth";
 import Cookies from "js-cookie";
 import {useAppDispatch} from "./utils/hook";
+import Router from "./router";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -40,16 +41,7 @@ function App() {
         <ThemeProvider theme={THEME}>
             <Layout>
                 <CssBaseline/>
-                <Routes>
-                    <Route element={<PrivateRoute/>}>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="settings" element={<Settings/>}/>
-                        <Route path="logs" element={<Logs/>}/>
-                        <Route path="users" element={<Users/>}/>
-                    </Route>
-                    <Route path="login" element={<AuthRootComponent/>}/>
-                    <Route path="register" element={<AuthRootComponent/>}/>
-                </Routes>
+                <Router/>
             </Layout>
         </ThemeProvider>
     );
