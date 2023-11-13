@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SitesController;
+use App\Http\Controllers\Api\CheckController;
+use App\Http\Controllers\Api\LogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +18,16 @@ use App\Http\Controllers\Api\SitesController;
 |
 */
 
-Route::middleware('auth:api')->group(function(){
-});
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('logout.middleware');
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::apiResource('logs', LogsController::class)->only([
+    'index'
+]);
 
-Route::get('/sites',[SitesController::class, 'index']);
-Route::get('/sites/save', [SitesController::class, 'store']);
-Route::put('/sites/update/{id}', [SitesController::class, 'update']);
+Route::get('/check', [CheckController::class, 'index']);
 
+Route::apiResource('sites', SitesController::class)->only([
+    'index', 'store', 'update', 'destroy'
+]);
 
