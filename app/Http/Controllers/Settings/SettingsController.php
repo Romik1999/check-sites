@@ -25,10 +25,10 @@ class SettingsController extends Controller
 
     public function update(TelegramRequest $request){
         $settings = Valuestore::make(storage_path('app/settings.json'));
-        $settings->put('check_enabled', 1);
-        $settings->put('telegram_enabled', 1);
-        $settings->put('telegram_token', '6878663715:AAEXITE4Q5Dmm3Gzoq_P0S9TX9-ngDCAVHk');
-        $settings->put('telegram_chat_id', '-1002050482585');
+        $settings->put('check_enabled', $request->check_enabled);
+        $settings->put('telegram_enabled', $request->telegram_enabled);
+        $settings->put('telegram_token', $request->telegram_token);
+        $settings->put('telegram_chat_id', $request->telegram_chat_id);
 
         return response()->json(['success' => 'Данные успешно обновлены']);
     }
