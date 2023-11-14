@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tanstack/eslint-plugin-query": "^5.8.3",
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.8.0",
         "vite": "^4.0.0"
@@ -17,7 +18,7 @@
         "@mui/material": "^5.14.16",
         "@mui/styles": "^5.14.4",
         "@reduxjs/toolkit": "^1.9.7",
-        "@tanstack/react-query": "^5.7.2",
+        "@tanstack/react-query": "^5.8.3",
         "@types/jest": "^27.5.2",
         "@types/node": "^16.18.40",
         "@types/react": "^18.2.20",
