@@ -22,6 +22,7 @@ class TelegramRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'check_enabled' => 'required|boolean',
             'telegram_enabled' => 'required|boolean',
             'telegram_token' => 'nullable',
             'telegram_chat_id' => 'nullable',

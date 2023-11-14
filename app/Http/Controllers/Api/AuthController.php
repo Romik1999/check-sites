@@ -12,21 +12,23 @@ class AuthController extends Controller
 {
     public function login(AuthRequest $request){
 
-        $user = [
-            'name' => $request->name,
+        $userCredentails = [
             'email' => $request->email,
             'password' => $request->password
         ];
 
-        if(auth()->attempt($user)){
+        if(auth()->attempt($userCredentails)){
+            $user = auth()->user();
             $token = auth()->user()->createToken('api_token')->accessToken;
-            return response()->json(['name' => $request->name, 'token' => $token]);
+            return response()->json(['name' => $user->name,'token' => $token]);
         }else{
             return response()->json(['error' => 'Неверные данные'], 401);
         }
     }
 
     public function logout(Request $request){
+
+        $this->middleware('logout.middleware');
         
         if($request->user()){
             $request->user()->tokens()->delete();
