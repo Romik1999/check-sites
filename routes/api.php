@@ -31,3 +31,4 @@ Route::apiResource('sites', SitesController::class)->only([
     'index', 'store', 'update', 'destroy'
 ]);
 
+
