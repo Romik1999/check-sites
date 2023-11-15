@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Sites = () => {
+const ModalCreate = () => {
     return (
         <div>
-            <h1>Sites</h1>
+            ModalCreate
         </div>
     );
 };
 
-export default Sites;
+export default ModalCreate;
