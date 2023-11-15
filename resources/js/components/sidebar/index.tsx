@@ -1,11 +1,17 @@
 import React from 'react';
-import {Box, Button, List, ListItem} from "@mui/material";
+import {Box, Button, List, ListItem, ListItemIcon, MenuItem, MenuList, Typography} from "@mui/material";
 import loginLogo from "../../assets/img/login-logo.svg"
 import {
     Sidebar, SidebarLogo, SidebarBottom, SidebarMenu
 
 } from "./styled";
+
 import {useNavigate} from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from "@mui/icons-material/Settings";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 const SideBarComponent = () => {
     const navigate = useNavigate()
 
@@ -19,15 +25,32 @@ const SideBarComponent = () => {
                 </Box>
             </SidebarLogo>
             <SidebarMenu>
-                <List>
-                    <ListItem onClick={() => navigate('/')}>Home</ListItem>
-                    <ListItem onClick={() => navigate('/settings')}>Settings</ListItem>
-                    <ListItem onClick={() => navigate('/logs')}>Logs</ListItem>
-                    <ListItem onClick={() => navigate('/users')}>Users</ListItem>
-                </List>
+                <MenuList>
+                    <MenuItem onClick={() => navigate('/')}>
+                        <ListItemIcon>
+                            <HomeIcon/>
+                        </ListItemIcon>
+                        <Typography component="span">Home</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate('/settings')}>
+                        <ListItemIcon>
+                            <SettingsIcon/>
+                        </ListItemIcon>
+                        <Typography component="span">Settings</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate('/logs')}>
+                        <ListItemIcon>
+                            <InsertDriveFileIcon/>
+                        </ListItemIcon>
+                        <Typography component="span">Logs</Typography>
+                    </MenuItem>
+                </MenuList>
             </SidebarMenu>
             <SidebarBottom>
-                <Button fullWidth color="secondary">Logout</Button>
+                <Button fullWidth>
+                    Logout
+                    <LogoutIcon/>
+                </Button>
             </SidebarBottom>
         </Sidebar>
     );

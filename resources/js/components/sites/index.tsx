@@ -18,7 +18,7 @@ const Sites = () => {
                 <h1>Sites</h1>
                 <Button color="secondary">Add Site</Button>
             </Box>
-            <SitesCreate/>
+            {/*<SitesCreate/>*/}
             <SitesList/>
             <ModalConfirm/>
             <ModalCreate/>
