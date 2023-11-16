@@ -12,10 +12,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.8",
-<<<<<<< HEAD
-=======
         "ramsey/uuid": "^4.7",
->>>>>>> 3f202964b94b4f6cdcc5a0951f66acbd85137527
         "spatie/valuestore": "^1.3"
     },
     "require-dev": {
