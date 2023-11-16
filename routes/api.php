@@ -19,7 +19,8 @@ use App\Http\Controllers\Api\LogsController;
 */
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('logout.middleware');
+Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::apiResource('logs', LogsController::class)->only(['index']);
+Route::apiResource('logs', LogsController::class)->only(['index', 'show', 'destroy']);
+
 Route::apiResource('sites', SitesController::class)->except(['show']);
