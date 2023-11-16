@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TelegramRequest;
 use Illuminate\Http\Request;
 use Spatie\Valuestore\Valuestore;
 

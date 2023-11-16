@@ -18,6 +18,7 @@ class SendErrorsToTelegram implements ShouldQueue
     use Dispatchable, SerializesModels;
 
     private EloquentCollection $sites;
+    private Collection $messages;
 
     public function __construct(
         Collection $responses,
@@ -33,7 +34,7 @@ class SendErrorsToTelegram implements ShouldQueue
         });
 
         // Выборка сообщений
-        $messages = $failed->map(function($response, $siteId) use ($sites){
+        $this->messages = $failed->map(function($response, $siteId) use ($sites){
             if($response instanceof ConnectException || $response instanceof RequestException)
                 return $sites->where('id', $siteId)->first()->name . ': ' . $response->getMessage();
             else
@@ -63,7 +64,7 @@ class SendErrorsToTelegram implements ShouldQueue
         }
 
         // Отправка остатка сообщений
-        if(strlen($text) > 0)
+        if(!empty($text) > 0)
             SendTelegramMessage::dispatch($text)->delay($seconds);
     }
 }

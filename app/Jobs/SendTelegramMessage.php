@@ -34,7 +34,7 @@ class SendTelegramMessage implements ShouldQueue
             url: 'https://api.telegram.org/bot' . $settings->get('telegram_token') . '/sendMessage',
             data: [
                 'chat_id' => $settings->get('telegram_chat_id'),
-                'message' => $this->message,
+                'text' => $this->message,
             ],
         );
 
