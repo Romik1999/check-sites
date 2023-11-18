@@ -1,10 +1,22 @@
-import React from 'react';
-import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import React, {useState} from 'react';
+import {
+    Button,
+    FormControlLabel,
+    Paper,
+    Switch,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {useQuery, useQueryClient, useMutation} from "@tanstack/react-query";
 import {SitesService} from "../../services/sites.service";
 import ModalConfirm from "./modal/modalConfirm";
+import MySwitch from "../UI/MySwitch";
 
 const SitesList = () => {
     const queryClient = useQueryClient();
@@ -52,7 +64,9 @@ const SitesList = () => {
                                 {row.name}
                             </TableCell>
                             <TableCell><a href={row.url} target="_blank">{row.url}</a></TableCell>
-                            <TableCell>{row.active}</TableCell>
+                            <TableCell>
+                               <MySwitch active={row.active} id={row.id}/>
+                            </TableCell>
                             <TableCell>
                                 <Button
                                     color="secondary"

@@ -4,12 +4,8 @@ import Cookies from "js-cookie"
 
 const initialState: IAuthState = {
     user: {
-        id: null,
-        firstName: '',
-        userName: '',
-        email: '',
-        createdAt: '',
-        updateAt: '',
+        name: '',
+        token: '',
     },
     isLogged: false
 }
@@ -21,7 +17,7 @@ export const authSlice = createSlice({
         login(state, action) {
             state.user = action.payload
             // поставить в токен - токен который приходит с бека
-            Cookies.set("token")
+            Cookies.set("token", action.payload.token, { expires: 5 })
             state.isLogged = true
         }
     }

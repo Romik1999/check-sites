@@ -16,8 +16,8 @@ export const SitesService = {
         return axios.post(`/api/sites`, {name, url, active})
     },
 
-    async updateSite(id: number) {
-        return axios.get(`/api/sites/update/${id}`)
+    async updateSite(id: number, active: number) {
+        return axios.patch(`/api/sites/${id}`, {active})
     },
 
     async deleteSite(id: number) {

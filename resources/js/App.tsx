@@ -14,21 +14,21 @@ function App() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const auth = async () => {
-            try {
-                const token = Cookies.get("token")
-                if (token) {
-                    const user = await instance.post('check-token', token)
-                    dispatch(login(user.data))
-                    navigate('/')
-                }
-            } catch (e) {
-
-            }
-        }
-        auth()
-    }, [])
+    // useEffect(() => {
+    //     const auth = async () => {
+    //         try {
+    //             const token = Cookies.get("token")
+    //             if (token) {
+    //                 const user = await instance.post('check-token', token)
+    //                 dispatch(login(user.data))
+    //                 navigate('/')
+    //             }
+    //         } catch (e) {
+    //
+    //         }
+    //     }
+    //     auth()
+    // }, [])
 
 
     return (
