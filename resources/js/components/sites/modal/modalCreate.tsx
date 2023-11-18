@@ -15,6 +15,10 @@ const ModalCreate = () => {
     const [name, setName] = useState('')
     const [url, setUrl] = useState('')
     const [active, setActive] = useState(true)
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const queryClient = useQueryClient();
 
     const createMutation = useMutation({
@@ -25,6 +29,7 @@ const ModalCreate = () => {
             setName('')
             setUrl('')
             setActive(false)
+            handleClose()
         },
     })
 
@@ -32,10 +37,6 @@ const ModalCreate = () => {
         e.preventDefault()
         createMutation.mutate({name, url, active})
     }
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     return (
         <>

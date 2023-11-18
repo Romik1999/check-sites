@@ -18,11 +18,8 @@ const Sites = () => {
                 <h1>Sites</h1>
                 <ModalCreate/>
             </Box>
-            {/*<SitesCreate/>*/}
             <SitesList/>
-            <ModalConfirm/>
-            <ModalCreate/>
-            <Loader/>
+            {/*<ModalConfirm/>*/}
         </>
     );
 };
