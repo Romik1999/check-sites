@@ -5,6 +5,7 @@ import input from "./input";
 import textfield from "./textfield";
 import button from "./button";
 import {typography} from "./typography";
+import {modal} from "./modal";
 
 const THEME = createTheme({
     palette,
@@ -22,6 +23,9 @@ const THEME = createTheme({
         MuiButton:{
             ...button
         },
+        MuiModal:{
+            ...modal
+        }
     }
 });
 

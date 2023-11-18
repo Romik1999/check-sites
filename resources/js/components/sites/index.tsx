@@ -16,7 +16,7 @@ const Sites = () => {
                 alignItems="center"
             >
                 <h1>Sites</h1>
-                <Button color="secondary">Add Site</Button>
+                <ModalCreate/>
             </Box>
             {/*<SitesCreate/>*/}
             <SitesList/>

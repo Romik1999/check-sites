@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FormControlLabel, Switch} from "@mui/material";
+import {FormControlLabel, Stack, Switch, Typography} from "@mui/material";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
 
@@ -21,7 +21,11 @@ const MySwitch = (props: any) => {
     };
 
     return (
-        <Switch checked={checked} onChange={toggleChecked} />
+        <Stack direction="row" spacing={1} alignItems="center">
+            <Typography>Off</Typography>
+            <Switch checked={checked} onChange={toggleChecked}/>
+            <Typography>On</Typography>
+        </Stack>
     );
 };
 
