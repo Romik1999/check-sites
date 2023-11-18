@@ -129,7 +129,7 @@ return [
 
         'telegram' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/telegram/'),
+            'path' => storage_path('logs/telegram/log'),
         ],
     ],
 

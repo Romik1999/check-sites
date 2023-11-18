@@ -19,15 +19,10 @@ use App\Http\Controllers\Api\LogsController;
 */
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('logout.middleware');
 
-Route::apiResource('logs', LogsController::class)->only([
-    'index'
-]);
-
-Route::get('/check', [CheckController::class, 'index']);
-
-Route::apiResource('sites', SitesController::class)->only([
-    'index', 'store', 'update', 'destroy'
-]);
+Route::middleware('auth.middleware')->group(function(){
+    Route::apiResource('logs', LogsController::class)->only(['index', 'show', 'destroy']);
+    Route::apiResource('sites', SitesController::class)->except(['show']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
