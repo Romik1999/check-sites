@@ -17,6 +17,7 @@ import {useQuery, useQueryClient, useMutation} from "@tanstack/react-query";
 import {SitesService} from "../../services/sites.service";
 import ModalConfirm from "./modal/modalConfirm";
 import MySwitch from "../UI/MySwitch";
+import Loader from "../loader";
 
 const SitesList = () => {
     const queryClient = useQueryClient();
@@ -27,7 +28,7 @@ const SitesList = () => {
         select: ({data}) => data
     })
 
-    if (isLoading) return "Loading...";
+    if (isLoading) return (<Loader/>);
     if (error) return "An error has occurred: " + error.message;
 
     return (
@@ -58,7 +59,6 @@ const SitesList = () => {
                             </TableCell>
                             <TableCell>
                                 <ModalConfirm id={row.id}/>
-                                <Button color="secondary"><SettingsIcon/></Button>
                             </TableCell>
                         </TableRow>
                     ))}

@@ -46,6 +46,7 @@ $blue: rgba(0, 0, 255, .5);
     height: 150px;
     display: block;
     overflow: hidden;
+
     div {
         height: 100%;
     }
@@ -83,10 +84,28 @@ $blue: rgba(0, 0, 255, .5);
     animation: rotate2 4s infinite linear;
 }
 
-div:hover {
-    animation-play-state: paused;
-}
+//div:hover {
+//    animation-play-state: paused;
+//}
 
 .loader, .loader * {
     will-change: transform;
+}
+
+.loader-wrapper {
+    position: fixed;
+    z-index: 199;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    transition: 0.3s;
+    padding: 30px;
+    backdrop-filter: blur(4px);
 }
