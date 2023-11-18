@@ -19,7 +19,6 @@ const Sites = () => {
                 <ModalCreate/>
             </Box>
             <SitesList/>
-            {/*<ModalConfirm/>*/}
         </>
     );
 };

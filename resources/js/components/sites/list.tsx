@@ -27,17 +27,6 @@ const SitesList = () => {
         select: ({data}) => data
     })
 
-    const deleteMutation = useMutation({
-        mutationFn: (id: number) => SitesService.deleteSite(id),
-        onSettled: () => {
-            queryClient.invalidateQueries(['sites'])
-        },
-    })
-
-    const onSiteDelete = (id: number) => {
-        deleteMutation.mutate(id)
-    }
-
     if (isLoading) return "Loading...";
     if (error) return "An error has occurred: " + error.message;
 
@@ -68,10 +57,7 @@ const SitesList = () => {
                                <MySwitch active={row.active} id={row.id}/>
                             </TableCell>
                             <TableCell>
-                                <Button
-                                    color="secondary"
-                                    onClick={() => onSiteDelete(row.id)}
-                                ><DeleteIcon/></Button>
+                                <ModalConfirm id={row.id}/>
                                 <Button color="secondary"><SettingsIcon/></Button>
                             </TableCell>
                         </TableRow>
