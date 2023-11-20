@@ -11,10 +11,11 @@ class Site extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'url',
         'active',
     ];
+
+    const UPDATED_AT = null;
 
     public function scopeActive(Builder $query): void
     {

@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\LogsController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::middleware('auth.middleware')->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('logs', LogsController::class)->only(['index', 'show', 'destroy']);
     Route::apiResource('sites', SitesController::class)->except(['show']);
     Route::post('/logout', [AuthController::class, 'logout']);
