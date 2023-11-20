@@ -14,30 +14,27 @@ class SitesSeeder extends Seeder
      */
     public function run(): void
     {
-        Site::insert([
-            [
-                'name' => 'БФЛ Нижний Новгород',
-                'url' => 'https://nizhny-newgorod-bfl.ru',
-                'active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        Site::upsert([
+                [
+                    'url' => 'https://nizhny-newgorod-bfl.ru',
+                    'active' => true,
+                    'created_at' => now(),
+                ],
 
-            [
-                'name' => 'Банкрот Средняя РФ',
-                'url' => 'https://bankrot-middle-rf.ru',
-                'active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+                [
+                    'url' => 'https://bankrot-middle-rf.ru',
+                    'active' => true,
+                    'created_at' => now(),
+                ],
 
-            [
-                'name' => 'БФЛ Самара',
-                'url' => 'https://bfl-smr.ru',
-                'active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                [
+                    'url' => 'https://bfl-smr.ru',
+                    'active' => true,
+                    'created_at' => now(),
+                ],
             ],
-        ]);
+            ['url'],
+            ['active']
+        );
     }
 }

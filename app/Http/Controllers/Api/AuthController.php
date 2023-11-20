@@ -19,9 +19,9 @@ class AuthController extends Controller
 
         if(auth()->attempt($userCredentails)){
             $user = auth()->user();
-            $tokenResult = $user->createToken('api_token');
+            $token = $user->createToken('api_token')->plainTextToken;
 
-            return response()->json(['name' => $user->name, 'token' => $tokenResult->accessToken]);
+            return response()->json(['name' => $user->name, 'token' => $token]);
         }else{
             return response()->json(['error' => 'Неверные данные'], 401);
         }
