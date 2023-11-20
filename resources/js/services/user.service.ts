@@ -1,4 +1,5 @@
 import axios from "axios";
+import {CookieService} from "./cookie.service";
 
 interface IUserData {
     email: string,
@@ -8,7 +9,9 @@ interface IUserData {
 export const UserService = {
     async login(email: string, password: string) {
         try {
-            return await axios.post('/api/login', {email, password})
+            const response = await axios.post('/api/login', { email, password });
+            CookieService.setAuthToken(response.data.token);
+            return response;
         } catch (e) {
             console.log(e);
         }

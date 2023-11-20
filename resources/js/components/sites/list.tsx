@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-    Button,
-    FormControlLabel,
     Paper,
-    Switch,
     Table,
     TableBody,
     TableCell,
@@ -11,17 +8,13 @@ import {
     TableHead,
     TableRow
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SettingsIcon from "@mui/icons-material/Settings";
-import {useQuery, useQueryClient, useMutation} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {SitesService} from "../../services/sites.service";
 import ModalConfirm from "./modal/modalConfirm";
 import MySwitch from "../UI/MySwitch";
 import Loader from "../loader";
 
 const SitesList = () => {
-    const queryClient = useQueryClient();
-
     const {isLoading, error, data} = useQuery({
         queryKey: ['sites'],
         queryFn: () => SitesService.getAll(),
@@ -45,7 +38,7 @@ const SitesList = () => {
                 <TableBody>
                     {data.item.data.map((row) => (
                         <TableRow
-                            key={row.name}
+                            key={row.id}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell align="center">{row.id}</TableCell>

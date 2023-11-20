@@ -1,4 +1,5 @@
 import axios from "axios";
+import {CookieService} from "./cookie.service";
 
 interface IData {
     id: number,
@@ -9,7 +10,19 @@ interface IData {
 
 export const SitesService = {
     async getAll() {
-        return axios.get('/api/sites')
+        const authToken = CookieService.getAuthToken();
+        if (!authToken) {
+            throw new Error('Authentication token not found.');
+        }
+        try {
+            return await axios.get('/api/sites', {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     async createSite(name: string, url: string, active: boolean) {
