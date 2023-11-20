@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Site::class, column: 'site_id')->constrained()->cascadeOnDelete();
             $table->text('response_code');
-            $table->json('response_header');
-            $table->json('response_body');
+            $table->json('response_header')->nullable();
+            $table->json('response_body')->nullable();
             $table->timestamp('created_at');
 
             // Индексация

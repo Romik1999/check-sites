@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TelegramRequest extends FormRequest
+class SettingsUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,5 +27,11 @@ class TelegramRequest extends FormRequest
             'telegram_token' => 'nullable',
             'telegram_chat_id' => 'nullable',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = new \Illuminate\Http\Response(['error' => $validator->errors()->first()], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

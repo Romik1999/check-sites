@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SitesRequest extends FormRequest
+class LogIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class SitesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sort_by' => 'in:name,url,active,status',
-            'order' => 'in:asc,desc'
+            'sort_by' => 'in:url,response_code,created_at',
+            'order' => 'in:asc,desc',
+
         ];
     }
 }
