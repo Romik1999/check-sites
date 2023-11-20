@@ -37,7 +37,6 @@ const SitesList = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">id</TableCell>
-                        <TableCell>Name</TableCell>
                         <TableCell>Url</TableCell>
                         <TableCell>Active</TableCell>
                         <TableCell>Actions</TableCell>
@@ -50,10 +49,7 @@ const SitesList = () => {
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell align="center">{row.id}</TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell><a href={row.url} target="_blank">{row.url}</a></TableCell>
+                            <TableCell component="th" scope="row"><a href={row.url} target="_blank">{row.url}</a></TableCell>
                             <TableCell>
                                <MySwitch active={row.active} id={row.id}/>
                             </TableCell>
