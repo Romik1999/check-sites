@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Site;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroyRequest extends FormRequest
+class LogIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,9 @@ class DestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'sort_by' => 'in:url,response_code,created_at',
+            'order' => 'in:asc,desc',
+
         ];
     }
 }

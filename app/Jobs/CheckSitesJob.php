@@ -43,7 +43,7 @@ class CheckSitesJob implements ShouldQueue
         Site::active()->select(['id', 'name', 'url'])->chunkById(100, function(Collection $sites) {
             $responses = Http::pool(function(Pool $pool) use ($sites){
                 return $sites->map(function($site) use ($pool){
-                    return $pool->as($site->id)->get($site->url);
+                    return $pool->as($site->id)->timeout(15)->retry(3)->get($site->url);
                 })->toArray();
             });
 
@@ -53,45 +53,8 @@ class CheckSitesJob implements ShouldQueue
             WriteResponsesIntoLog::dispatch(responses: $responses);
 
             // Рассылка в Telegram
-            if($this->settings->get('telegram_enabled') === 1 && !is_null($this->settings->get('telegram_token')) && !is_null($this->settings->get('telegram_chat_id'))){
+            if($this->settings->get('telegram_enabled') === 1 && !is_null($this->settings->get('telegram_token')) && !is_null($this->settings->get('telegram_chat_id')))
                 SendErrorsToTelegram::dispatch(responses: $responses, sites: $sites);
-
-//                // Выборка неудачных запросов
-//                $failed = $responses->filter(function($response){
-//                    if($response instanceof ConnectException || $response instanceof RequestException)
-//                        return true;
-//                    else
-//                        return $response->failed();
-//                });
-//
-//                // Выборка сообщений
-//                $messages = $failed->map(function($response, $siteId) use ($sites){
-//                    if($response instanceof ConnectException || $response instanceof RequestException)
-//                        return $sites->where('id', $siteId)->first()->name . ': ' . $response->getMessage();
-//                    else
-//                        return $sites->where('id', $siteId)->first()->name . ': ' . $response->status();
-//                });
-//
-//                // Склейка сообщений и отправка
-//                $seconds = 0;
-//                $text = '';
-//
-//                foreach ($messages as $message)
-//                {
-//                    if(strlen($text . $message . PHP_EOL) > 4096){
-//                        // TODO Отправка в Telegram
-//
-//                        $seconds++;
-//                        $text = '';
-//                    }
-//
-//                    $text .= $message . PHP_EOL;
-//                }
-//
-//                if(strlen($text) > 0)
-//                    //TODO Отправка остатков сообщений
-//                    sleep(1);
-            }
         });
     }
 }

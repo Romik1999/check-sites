@@ -35,6 +35,6 @@ class AuthController extends Controller
             $request->user()->tokens()->delete();
         }
 
-        return response()->json(['success' =>'Успшено вышли из системы'], 200);
+        return response(content: 'Вы вышли из системы');
     }
 }

@@ -22,9 +22,14 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'url' => 'required|',
-            'active' => 'integer',
+            'url' => 'required|url|unique:sites,url',
+            'active' => 'required|boolean',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = new \Illuminate\Http\Response(['error' => $validator->errors()->first()], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

@@ -28,4 +28,10 @@ class SettingsUpdateRequest extends FormRequest
             'telegram_chat_id' => 'nullable',
         ];
     }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = new \Illuminate\Http\Response(['error' => $validator->errors()->first()], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests\Site;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,9 +24,14 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string',
-            'url' => 'required',
-            'active' => 'integer',
+            'url' => 'required|url|unique:sites,url,'.$this->site,
+            'active' => 'required|boolean',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+     $response = new \Illuminate\Http\Response(['error' => $validator->errors()->first()], 422);
+     throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

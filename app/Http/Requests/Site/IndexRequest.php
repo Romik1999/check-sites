@@ -22,8 +22,14 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sort_by' => 'in:name,url,active,status',
+            'sort_by' => 'in:url,active,created_at',
             'order' => 'in:asc,desc'
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = new \Illuminate\Http\Response(['error' => $validator->errors()->first()], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

@@ -3,43 +3,43 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LogIndexRequest;
 use Illuminate\Http\Request;
 use App\Models\Log;
 use App\Models\Site;
+use Illuminate\Http\Response;
 
 class LogsController extends Controller
 {
-    public function index(){
+    public function index(LogIndexRequest $request){
 
-        $logs = Log::leftJoin('sites', 'logs.site_id', '=', 'sites.id') 
-            ->select('sites.url', 'logs.response_code', 'logs.created_at')
-            ->get()
-            ->toArray();
+        $logs = Log::with('site:id,url')
+            ->select(['id', 'response_code', 'created_at'])
+            ->orderBy($request->sort_by ?? 'created_at', $request->order ?? 'desc')
+            ->simplePaginate(20);
     
+        return response()->json(data: $logs);
+    }
+
+    public function show($log){
+
+        $logs = Log::with('site:id,url')->find($log);
+
+        if(!$logs)
+            return response(content: 'Лог на найден', status: Response::HTTP_NOT_FOUND);
+
         return response()->json(['logs' => $logs]);
     }
 
-    public function show($id){
+    public function destroy($log){
 
-        $logs = Log::find($id);
+        $logs = Log::find($log);
 
-        if(!$logs){
-            return response()->json(['error' => 'Лог на найден'], 404);
-        }
-
-        return response()->json(['logs' => $logs]);
-    }
-
-    public function destroy($id){
-
-        $logs = Log::find($id);
-
-        if(!$logs){
-            return response()->json(['error' => 'Лог на найден'], 404);
-        }
+        if(!$logs)
+            return response(content: 'Лог на найден', status: Response::HTTP_NOT_FOUND);
 
         $logs->delete();
 
-        return response()->json(['success' => 'Лог успешно удален']);
+        return response(content: 'Лог успешно удален', status: Response::HTTP_NO_CONTENT);
     }
 }

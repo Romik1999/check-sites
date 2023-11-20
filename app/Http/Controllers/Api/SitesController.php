@@ -8,6 +8,7 @@ use App\Http\Requests\Site\IndexRequest;
 use App\Http\Requests\Site\StoreRequest;
 use App\Http\Requests\Site\UpdateRequest;
 use App\Http\Requests\Site\DestroyRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Site;
 
@@ -22,41 +23,37 @@ class SitesController extends Controller
 
     public function store(StoreRequest $request){
 
-        if(Site::create([
-            'name' => $request->name,
+        Site::create([
             'url' => $request->url,
             'active' => $request->active,
-        ])){
-            return response()->json(['success' => 'Успешно'], 200);
-        }else{
-            return response()->json(['error' => 'Ошибка'], 404);
-        }
+        ]);
+
+        return response(content: 'Сайт создан', status: Response::HTTP_CREATED);
     }
 
-    public function update(UpdateRequest $request, $id){
-        
-        $item = Site::find($id);
+    public function update(UpdateRequest $request, $site){
+        $item = Site::find($site);
 
-        if(!$item){
-            return response()->json(['error' => 'Запись не найдена'], 404);
-        }
+        if(!$item)
+            return response(content: 'Запись не найдена', status: Response::HTTP_NOT_FOUND);
 
-        $item->update($request->all());
+        $item->update([
+            'url' => $request->url,
+            'active' => $request->active,
+        ]);
 
-        return response()->json(['success' => 'Запись обновлена'], 200);
-
+        return response(content: 'Запись обновлена');
     }
 
-    public function destroy(DestroyRequest $request, $id){
+    public function destroy($site){
 
-        $item = Site::find($id);
+        $item = Site::find($site);
 
-        if(!$item){
-            return response()->json(['error' => 'Запись не найдена'], 404);
-        }
+        if(!$item)
+            return response(content: 'Запись не найдена', status: Response::HTTP_NOT_FOUND);
 
         $item->delete();
 
-        return response()->json(['success' => 'Запись удалена']);
+        return response(content: 'Запись удалена', status: Response::HTTP_NO_CONTENT);
     }
 }
