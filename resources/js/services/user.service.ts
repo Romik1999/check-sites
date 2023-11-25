@@ -6,18 +6,38 @@ interface IUserData {
     password: string,
 }
 
+const API_URL = '/api';
+
 export const UserService = {
     async login(email: string, password: string) {
         try {
             const response = await axios.post('/api/login', { email, password });
-            CookieService.setAuthToken(response.data.token);
+            const token = response.data.token;
+            CookieService.setCookie('laravel_token', token, 7);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             return response;
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log('Ошибка входа:', error);
+        }
+    },
+
+    checkAuth () {
+        const token = CookieService.getCookie('laravel_token'); // Загрузить токен из кук
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Установить заголовок авторизации для будущих запросов
+            return token
         }
     },
 
     async logout() {
-        return 'logout'
+        try {
+            await axios.post('/api/logout');
+            // Дополнительные действия при выходе
+            delete axios.defaults.headers.common['Authorization']; // Удалить заголовок авторизации
+            return true;
+        } catch (error) {
+            console.error('Ошибка выхода:', error);
+            return false;
+        }
     }
 }

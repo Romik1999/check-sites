@@ -6,19 +6,10 @@ import {ModalTop, ModalWrapper} from "../../sites/modal/styled";
 import CloseIcon from "@mui/icons-material/Close";
 
 const MyModal = (props:any) => {
-    const { buttonIcon, modalTitle, children, modalState, ...rest} = props
+    const { modalTitle, children, modalState, open, setOpen, handleOpen, handleClose, ...rest} = props
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     return (
         <>
-            <Button
-                color="secondary"
-                onClick={handleOpen}
-            >
-                <DeleteIcon/>
-            </Button>
             <Modal
                 className="modal"
                 aria-labelledby="transition-modal-title"

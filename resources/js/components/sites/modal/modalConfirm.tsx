@@ -6,16 +6,12 @@ import {SitesService} from "../../../services/sites.service";
 import Backdrop from "@mui/material/Backdrop";
 import {ModalForm, ModalTop, ModalWrapper} from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
+import MyModal from "../../UI/MyModal";
 
 const ModalConfirm = (props) => {
-    const {id} = props
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const {siteId, handleClose, handleOpen, open, ...rest} = props
 
     const queryClient = useQueryClient();
-
 
     const deleteMutation = useMutation({
         mutationFn: (id: number) => SitesService.deleteSite(id),
@@ -24,55 +20,39 @@ const ModalConfirm = (props) => {
         },
     })
 
-    const onSiteDelete = (id: number) => {
-        deleteMutation.mutate(id)
+    const onSiteDelete = (siteId: number) => {
+        deleteMutation.mutate(siteId)
     }
 
     return (
         <>
-            <Button
-                color="secondary"
-                onClick={handleOpen}
-            >
-                <DeleteIcon/>
-            </Button>
-            <Modal
-                className="modal"
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
+            <MyModal
+                modalTitle="Confirm delete"
+                handleClose={handleClose}
+                handleOpen={handleOpen}
                 onClose={handleClose}
-                closeAfterTransition
-                slots={{backdrop: Backdrop}}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}
+                open={open}
             >
-                <Fade in={open}>
-                    <ModalWrapper>
-                        <ModalTop>
-                            <div className="modal__title">Confirm delete</div>
-                            <CloseIcon onClick={() => handleClose()}/>
-                        </ModalTop>
-                        <Stack direction="row" spacing={2}  justifyContent="center">
-                            <Button
-                                onClick={() => onSiteDelete(id)}
-                                color="success"
-                            >
-                                Yes
-                            </Button>
-                            <Button
-                                onClick={() => handleClose()}
-                                color="error"
-                            >
-                                No
-                            </Button>
-                        </Stack>
-                    </ModalWrapper>
-                </Fade>
-            </Modal>
+                <Stack direction="row" spacing={2} justifyContent="center">
+                    <Button
+                        color="success"
+                        onClick={
+                            () => {
+                                onSiteDelete(siteId)
+                                handleClose()
+                            }
+                        }
+                    >
+                        Yes
+                    </Button>
+                    <Button
+                        color="error"
+                        onClick={() => handleClose()}
+                    >
+                        No
+                    </Button>
+                </Stack>
+            </MyModal>
         </>
     );
 };

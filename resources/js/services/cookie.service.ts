@@ -1,22 +1,26 @@
-const COOKIE_NAME = 'authToken';
+const COOKIE_NAME = 'laravel_session';
 
 export const CookieService = {
-    getAuthToken: (): string | null => {
-        const cookies = document.cookie.split('; ');
-        const authTokenCookie = cookies.find((cookie) => cookie.startsWith(`${COOKIE_NAME}=`));
+    setCookie: (name: string, value: string, days: number): void => {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value}; ${expires}; path=/`;
+    },
 
-        if (authTokenCookie) {
-            return authTokenCookie.split('=')[1];
+    getCookie: (name: string): string | null => {
+        const cname = `${name}=`;
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookies = decodedCookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(cname) === 0) {
+                return cookie.substring(cname.length, cookie.length);
+            }
         }
-
         return null;
-    },
-
-    setAuthToken: (token: string): void => {
-        document.cookie = `${COOKIE_NAME}=${token}; path=/`;
-    },
-
-    removeAuthToken: (): void => {
-        document.cookie = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-    },
+    }
 };

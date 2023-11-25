@@ -10,16 +10,8 @@ interface IData {
 
 export const SitesService = {
     async getAll() {
-        const authToken = CookieService.getAuthToken();
-        if (!authToken) {
-            throw new Error('Authentication token not found.');
-        }
         try {
-            return await axios.get('/api/sites', {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
+            return await axios.get('/api/sites')
         } catch (error) {
             console.log(error);
         }

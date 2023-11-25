@@ -17,7 +17,6 @@ export const authSlice = createSlice({
         login(state, action) {
             state.user = action.payload
             // поставить в токен - токен который приходит с бека
-            Cookies.set("token", action.payload.token, { expires: 5 })
             state.isLogged = true
         }
     }
