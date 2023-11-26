@@ -12,7 +12,6 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 const ModalCreate = () => {
-    const [name, setName] = useState('')
     const [url, setUrl] = useState('')
     const [active, setActive] = useState(true)
     const [open, setOpen] = React.useState(false);
@@ -23,10 +22,9 @@ const ModalCreate = () => {
 
     const createMutation = useMutation({
         mutationKey: ['sites'],
-        mutationFn: (obj) => SitesService.createSite(obj.name, obj.url, obj.active),
+        mutationFn: (obj) => SitesService.createSite(obj.url, obj.active),
         onSettled: () => {
             queryClient.invalidateQueries(['sites'])
-            setName('')
             setUrl('')
             setActive(false)
             handleClose()
@@ -35,7 +33,7 @@ const ModalCreate = () => {
 
     const onSiteCreate = async (e: SyntheticEvent) => {
         e.preventDefault()
-        createMutation.mutate({name, url, active})
+        createMutation.mutate({url, active})
     }
 
     return (
@@ -62,12 +60,6 @@ const ModalCreate = () => {
                             <CloseIcon onClick={() => handleClose()}/>
                         </ModalTop>
                         <ModalForm onSubmit={onSiteCreate}>
-                            <TextField
-                                label="Site name" variant="outlined" placeholder="Set siteName"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                fullWidth
-                            />
                             <TextField
                                 label="Site url" variant="outlined" placeholder="Set siteUrl"
                                 value={url}

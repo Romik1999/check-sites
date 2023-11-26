@@ -7,6 +7,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 const Settings = () => {
 
+    const [telegram_token, setTelegramToken] = useState('')
+    const [telegram_chat_id, setTelegramChatId] = useState('')
+    const [check_enabled, setCheckEnabled] = useState('')
+    const [telegram_enabled, setTelegramEnabled] = useState('')
+    const queryClient = useQueryClient();
+
     const {isLoading, error, data} = useQuery({
         queryKey: ['settings'],
         queryFn: () => SettingsService.getAll(),
@@ -15,13 +21,6 @@ const Settings = () => {
 
     if (isLoading) return (<Loader/>);
     if (error) return "An error has occurred: " + error.message;
-
-    const [telegram_token, setTelegramToken] = useState(data.telegram_token)
-    const [telegram_chat_id, setTelegramChatId] = useState(data.telegram_chat_id)
-    const [check_enabled, setCheckEnabled] = useState(data.check_enabled)
-    const [telegram_enabled, setTelegramEnabled] = useState(data.telegram_enabled)
-    const queryClient = useQueryClient();
-
 
     const updateMutation = useMutation({
         mutationKey: ['settings'],

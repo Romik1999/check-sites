@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {
     Button,
-    Paper, Stack,
+    Paper,
     Table,
     TableBody,
     TableCell,
@@ -13,8 +13,7 @@ import {SitesService} from "../../services/sites.service";
 import ModalConfirm from "./modal/modalConfirm";
 import MySwitch from "../UI/MySwitch";
 import Loader from "../loader";
-import MyModal from "../UI/MyModal";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const SitesList = () => {
