@@ -17,8 +17,12 @@ export const SitesService = {
         }
     },
 
-    async createSite(name: string, url: string, active: boolean) {
-        return axios.post(`/api/sites`, {name, url, active})
+    async createSite(url: string, active: boolean) {
+        try {
+            return axios.post(`/api/sites`, {url, active})
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     async updateSite(id: number, active: number) {
