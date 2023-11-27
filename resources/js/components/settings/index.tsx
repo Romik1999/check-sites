@@ -6,10 +6,10 @@ import {SettingsService} from "../../services/settings.service";
 const SettingsComponent = (props) => {
     const {data} = props;
 
-    const [check_enabled, setCheckEnabled] = useState(data.check_enabled)
-    const [telegram_enabled, setTelegramEnabled] = useState(data.telegram_enabled)
-    const [telegram_token, setTelegramToken] = useState(data.telegram_token)
-    const [telegram_chat_id, setTelegramChatId] = useState(data.telegram_chat_id)
+    const [check_enabled, setCheckEnabled] = useState(data.check_enabled || false)
+    const [telegram_enabled, setTelegramEnabled] = useState(data.telegram_enabled || false)
+    const [telegram_token, setTelegramToken] = useState(data.telegram_token || '')
+    const [telegram_chat_id, setTelegramChatId] = useState(data.telegram_chat_id || '')
 
     const queryClient = useQueryClient();
 
@@ -23,11 +23,7 @@ const SettingsComponent = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("check_enabled: ", check_enabled);
-        console.log("telegram_enabled: ", telegram_enabled);
-        console.log("telegram_token: ", telegram_token);
-        console.log("telegram_chat_id: ", telegram_chat_id);
-        updateMutation.mutate(check_enabled, telegram_enabled, telegram_token, telegram_chat_id)
+        updateMutation.mutate({check_enabled, telegram_enabled, telegram_token, telegram_chat_id})
     }
 
     return (
@@ -56,15 +52,17 @@ const SettingsComponent = (props) => {
             </Stack>
             <TextField
                 label="telegram_token" variant="outlined" placeholder="Введите telegram_token"
+                value={telegram_token}
                 onChange={(e) => setTelegramToken(e.target.value)}
                 fullWidth
             />
             <TextField
                 label="telegram_chat_id" variant="outlined" placeholder="Введите telegram_chat_id"
+                value={telegram_chat_id}
                 onChange={(e) => setTelegramChatId(e.target.value)}
                 fullWidth
             />
-            <Button type="submit" color="success">{data ? 'Save' : 'Update'}</Button>
+            <Button type="submit" color="success">{data ? 'Update' : 'Save'}</Button>
         </form>
     );
 };
