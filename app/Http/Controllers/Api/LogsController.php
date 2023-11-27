@@ -14,7 +14,7 @@ class LogsController extends Controller
     public function index(LogIndexRequest $request){
 
         $logs = Log::with('site:id,url')
-            ->select(['id', 'response_code', 'created_at'])
+            ->select(['id', 'site_id', 'response_code', 'created_at'])
             ->orderBy($request->sort_by ?? 'created_at', $request->order ?? 'desc')
             ->simplePaginate(20);
     
