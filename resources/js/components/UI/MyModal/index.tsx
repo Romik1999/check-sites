@@ -28,7 +28,9 @@ const MyModal = (props:any) => {
                     <ModalWrapper>
                         <ModalTop>
                             <div className="modal__title">{modalTitle}</div>
-                            <CloseIcon onClick={() => handleClose()}/>
+                            <Button color="secondary">
+                                <CloseIcon onClick={() => handleClose()}/>
+                            </Button>
                         </ModalTop>
                         {children}
                     </ModalWrapper>
