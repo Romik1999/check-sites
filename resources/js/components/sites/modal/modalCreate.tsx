@@ -1,23 +1,19 @@
 import React, {SyntheticEvent, useState} from 'react';
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
-import {Button, Checkbox, Fade, Modal, Stack, Switch, TextField, Typography} from "@mui/material";
-import Backdrop from '@mui/material/Backdrop';
+import {Button, Fade, Stack, Switch, TextField, Typography} from "@mui/material";
 import {
     ModalForm,
-    ModalTop,
     ModalWrapper
 
 } from "./styled";
-import CloseIcon from '@mui/icons-material/Close';
+import MyModal from "../../UI/MyModal";
 
-const ModalCreate = () => {
+const ModalCreate = (props) => {
+    const {handleClose, handleOpen, open, ...rest} = props
+
     const [url, setUrl] = useState('')
     const [active, setActive] = useState(true)
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     const queryClient = useQueryClient();
 
     const createMutation = useMutation({
@@ -26,7 +22,7 @@ const ModalCreate = () => {
         onSettled: () => {
             queryClient.invalidateQueries(['sites'])
             setUrl('')
-            setActive(false)
+            setActive(true)
             handleClose()
         },
     })
@@ -38,27 +34,15 @@ const ModalCreate = () => {
 
     return (
         <>
-            <Button onClick={handleOpen} color="secondary">Create site</Button>
-            <Modal
-                className="modal"
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
+            <MyModal
+                modalTitle="Create site"
+                handleClose={handleClose}
+                handleOpen={handleOpen}
                 onClose={handleClose}
-                closeAfterTransition
-                slots={{backdrop: Backdrop}}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}
+                open={open}
             >
                 <Fade in={open}>
                     <ModalWrapper>
-                        <ModalTop>
-                            <div className="modal__title">Create site</div>
-                            <CloseIcon onClick={() => handleClose()}/>
-                        </ModalTop>
                         <ModalForm onSubmit={onSiteCreate}>
                             <TextField
                                 label="Site url" variant="outlined" placeholder="Set siteUrl"
@@ -88,7 +72,7 @@ const ModalCreate = () => {
                         </ModalForm>
                     </ModalWrapper>
                 </Fade>
-            </Modal>
+            </MyModal>
         </>
     );
 };
