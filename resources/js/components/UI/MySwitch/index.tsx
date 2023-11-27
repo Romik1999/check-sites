@@ -4,12 +4,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
 
 const MySwitch = (props: any) => {
-    const {active, id} = props
+    const {active, id, url} = props
     const [checked, setChecked] = useState(active);
     const queryClient = useQueryClient();
 
     const updateMutation = useMutation({
-        mutationFn: () => SitesService.updateSite(id, checked),
+        mutationFn: () => SitesService.updateSite(id, url, checked),
         onSettled: () => {
             queryClient.invalidateQueries(['sites'])
         },
@@ -17,7 +17,7 @@ const MySwitch = (props: any) => {
 
     const toggleChecked = (event) => {
         setChecked(event.target.checked);
-        updateMutation.mutate(id, checked)
+        updateMutation.mutate(id, url, checked)
     };
 
     return (

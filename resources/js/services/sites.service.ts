@@ -25,8 +25,12 @@ export const SitesService = {
         }
     },
 
-    async updateSite(id: number, active: number) {
-        return axios.patch(`/api/sites/${id}`, {active})
+    async updateSite(id: number, url: string, active: number) {
+        try {
+            return axios.put(`/api/sites/${id}`, {url, active})
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     async deleteSite(id: number) {

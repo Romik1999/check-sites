@@ -58,7 +58,7 @@ const SitesList = () => {
                                     <a href={row.url} target="_blank">{row.url}</a>
                                 </TableCell>
                                 <TableCell>
-                                    <MySwitch active={row.active} id={row.id}/>
+                                    <MySwitch active={row.active} url={row.url} id={row.id}/>
                                 </TableCell>
                                 <TableCell>
                                     <Button
