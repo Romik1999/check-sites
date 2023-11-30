@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Button, Stack, Switch, TextField, Typography} from "@mui/material";
 import {useQueryClient, useMutation} from "@tanstack/react-query";
 import {SettingsService} from "../../services/settings.service";
+import {
+    SettingsForm
+} from "./styled";
 
 const SettingsComponent = (props) => {
     const {data} = props;
@@ -27,27 +30,27 @@ const SettingsComponent = (props) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Stack direction="row" spacing={1} alignItems="center">
-                <Typography>Service active</Typography>
+        <SettingsForm onSubmit={handleSubmit}>
+            <Stack direction="column" spacing={1}>
+                <Typography>Сервис:</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>Off</Typography>
+                    <Typography>Выкл</Typography>
                     <Switch
                         checked={check_enabled}
                         onChange={(e) => setCheckEnabled(e.target.checked)}
                     />
-                    <Typography>On</Typography>
+                    <Typography>Вкл</Typography>
                 </Stack>
             </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-                <Typography>Telegram alert active</Typography>
+            <Stack direction="column" spacing={1}>
+                <Typography>Оповещение в telegram:</Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>Off</Typography>
+                    <Typography>Выкл</Typography>
                     <Switch
                         checked={telegram_enabled}
                         onChange={(e) => setTelegramEnabled(e.target.checked)}
                     />
-                    <Typography>On</Typography>
+                    <Typography>Вкл</Typography>
                 </Stack>
             </Stack>
             <TextField
@@ -62,8 +65,8 @@ const SettingsComponent = (props) => {
                 onChange={(e) => setTelegramChatId(e.target.value)}
                 fullWidth
             />
-            <Button type="submit" color="success">{data ? 'Update' : 'Save'}</Button>
-        </form>
+            <Button type="submit" color="success">{data ? 'Обновить' : 'Сохранить'}</Button>
+        </SettingsForm>
     );
 };
 

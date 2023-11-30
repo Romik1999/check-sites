@@ -30,19 +30,19 @@ const SideBarComponent = () => {
                         <ListItemIcon>
                             <HomeIcon/>
                         </ListItemIcon>
-                        <Typography component="span">Home</Typography>
+                        <Typography component="span">Сайты</Typography>
                     </MenuItem>
                     <MenuItem onClick={() => navigate('/settings')}>
                         <ListItemIcon>
                             <SettingsIcon/>
                         </ListItemIcon>
-                        <Typography component="span">Settings</Typography>
+                        <Typography component="span">Настройки</Typography>
                     </MenuItem>
                     <MenuItem onClick={() => navigate('/logs')}>
                         <ListItemIcon>
                             <InsertDriveFileIcon/>
                         </ListItemIcon>
-                        <Typography component="span">Logs</Typography>
+                        <Typography component="span">Логи</Typography>
                     </MenuItem>
                 </MenuList>
             </SidebarMenu>

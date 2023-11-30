@@ -19,7 +19,7 @@ const Sites = () => {
                 columnGap="20px"
                 alignItems="center"
             >
-                <h1>Sites</h1>
+                <h1>Сайты</h1>
                 <Button
                     color="secondary"
                     onClick={() => handleOpen()}

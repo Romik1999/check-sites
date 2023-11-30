@@ -21,9 +21,9 @@ const MySwitch = (props: any) => {
 
     return (
         <Stack direction="row" spacing={1} alignItems="center">
-            <Typography>Off</Typography>
+            <Typography>Выкл</Typography>
             <Switch checked={defaultActive} onChange={toggleChecked}/>
-            <Typography>On</Typography>
+            <Typography>Вкл</Typography>
         </Stack>
     );
 };

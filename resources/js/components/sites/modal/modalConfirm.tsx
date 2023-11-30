@@ -27,7 +27,7 @@ const ModalConfirm = (props) => {
     return (
         <>
             <MyModal
-                modalTitle="Confirm delete"
+                modalTitle="Вы уверены"
                 handleClose={handleClose}
                 handleOpen={handleOpen}
                 onClose={handleClose}
@@ -43,13 +43,13 @@ const ModalConfirm = (props) => {
                             }
                         }
                     >
-                        Yes
+                        Да
                     </Button>
                     <Button
                         color="error"
                         onClick={() => handleClose()}
                     >
-                        No
+                        Нет
                     </Button>
                 </Stack>
             </MyModal>

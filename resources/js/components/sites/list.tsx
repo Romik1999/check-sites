@@ -52,9 +52,9 @@ const SitesList = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">id</TableCell>
-                            <TableCell>Url</TableCell>
-                            <TableCell>Active</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell>Домен</TableCell>
+                            <TableCell>Проверка</TableCell>
+                            <TableCell>Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

@@ -37,7 +37,7 @@ const ModalCreate = (props) => {
     return (
         <>
             <MyModal
-                modalTitle="Create site"
+                modalTitle="Создать сайт"
                 handleClose={handleClose}
                 handleOpen={handleOpen}
                 onClose={handleClose}
@@ -45,21 +45,21 @@ const ModalCreate = (props) => {
             >
                 <ModalForm onSubmit={onSiteCreate}>
                     <TextField
-                        label="Site url" variant="outlined" placeholder="Set siteUrl"
+                        label="Домен сайта" variant="outlined" placeholder="Укажите домен сайта"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
                         fullWidth
                     />
                     <Stack direction="column" spacing={0.5}>
-                        <Typography>Check site:</Typography>
+                        <Typography>Проверять сайт:</Typography>
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Typography>Off</Typography>
+                            <Typography>Выкл</Typography>
                             <Switch
                                 checked={active}
                                 defaultChecked
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setActive(e.target.checked)}
                             />
-                            <Typography>On</Typography>
+                            <Typography>Вкл</Typography>
                         </Stack>
                     </Stack>
                     <Button
@@ -67,7 +67,7 @@ const ModalCreate = (props) => {
                         type="submit"
                         fullWidth
                     >
-                        Create new site
+                        Создать новый сайт
                     </Button>
                 </ModalForm>
             </MyModal>
