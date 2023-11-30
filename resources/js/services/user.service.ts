@@ -32,8 +32,7 @@ export const UserService = {
     async logout() {
         try {
             await axios.post('/api/logout');
-            // Дополнительные действия при выходе
-            delete axios.defaults.headers.common['Authorization']; // Удалить заголовок авторизации
+            delete axios.defaults.headers.common['Authorization'];
             return true;
         } catch (error) {
             console.error('Ошибка выхода:', error);

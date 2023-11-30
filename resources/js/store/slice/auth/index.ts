@@ -18,9 +18,12 @@ export const authSlice = createSlice({
             state.user = action.payload
             // поставить в токен - токен который приходит с бека
             state.isLogged = true
+        },
+        logout(state){
+            state.isLogged = false
         }
     }
 })
 
-export const {login} = authSlice.actions
+export const {login, logout} = authSlice.actions
 export default authSlice.reducer

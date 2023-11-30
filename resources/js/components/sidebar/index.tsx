@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {SyntheticEvent} from 'react';
 import {Box, Button, List, ListItem, ListItemIcon, MenuItem, MenuList, Typography} from "@mui/material";
 import loginLogo from "../../assets/img/login-logo.svg"
 import {
@@ -11,9 +11,27 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from "@mui/icons-material/Settings";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import LogoutIcon from '@mui/icons-material/Logout';
+import {useMutation} from "@tanstack/react-query";
+import {UserService} from "../../services/user.service";
+import {login, logout} from "../../store/slice/auth";
+import {useAppDispatch} from "../../utils/hook";
 
 const SideBarComponent = () => {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+
+    const {mutate, data} = useMutation({
+        mutationKey: ['user'],
+        mutationFn: () => UserService.logout(),
+        onSuccess(data) {
+            dispatch(logout(data.data))
+            navigate('/')
+        }
+    })
+
+    const handleSubmit = async (e: SyntheticEvent) => {
+        mutate()
+    }
 
     return (
         <Sidebar>
@@ -47,8 +65,11 @@ const SideBarComponent = () => {
                 </MenuList>
             </SidebarMenu>
             <SidebarBottom>
-                <Button fullWidth>
-                    Logout
+                <Button
+                    fullWidth
+                    onClick={() => handleSubmit()}
+                >
+                    Выйти
                     <LogoutIcon/>
                 </Button>
             </SidebarBottom>
