@@ -1,53 +1,47 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React from 'react';
+import {Button, Stack, Switch, TextField, Typography} from "@mui/material";
+import {ModalForm} from "./styled";
+import MyModal from "../../UI/MyModal";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
-import {Button, Fade, Stack, Switch, TextField, Typography} from "@mui/material";
-import {
-    ModalForm,
-    ModalWrapper
 
-} from "./styled";
-import MyModal from "../../UI/MyModal";
+const ModalUpdate = (props) => {
+    const {handleClose, handleOpen, siteId, open, siteUrl, setSiteUrl, siteActive, setSiteActive, ...rest} = props
 
-const ModalCreate = (props) => {
-    const {handleClose, handleOpen, open, ...rest} = props
-
-    const [url, setUrl] = useState('')
-    const [active, setActive] = useState(true)
     const queryClient = useQueryClient();
 
-    const createMutation = useMutation({
+    const updateMutation = useMutation({
         mutationKey: ['sites'],
-        mutationFn: (obj) => SitesService.createSite(obj.url, obj.active),
-        onSettled: () => {
-            console.log(2222);
-            console.log(queryClient.invalidateQueries(['sites']));
+        mutationFn: (obj) => SitesService.updateSite(obj.siteId, obj.siteUrl, obj.siteActive),
+        onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
-            setUrl('')
-            setActive(true)
+            setSiteActive(siteActive)
             handleClose()
         },
     })
 
-    const onSiteCreate = async (e: SyntheticEvent) => {
-        e.preventDefault()
-        createMutation.mutate({url, active})
+    const toggleChecked = (event) => {
+        setSiteActive(event.target.checked);
+    };
+    const onSiteUpdate = (event) => {
+        event.preventDefault()
+        updateMutation.mutate({siteId, siteUrl, siteActive})
     }
 
     return (
         <>
             <MyModal
-                modalTitle="Create site"
+                modalTitle="Update site"
                 handleClose={handleClose}
                 handleOpen={handleOpen}
                 onClose={handleClose}
                 open={open}
             >
-                <ModalForm onSubmit={onSiteCreate}>
+                <ModalForm onSubmit={onSiteUpdate}>
                     <TextField
                         label="Site url" variant="outlined" placeholder="Set siteUrl"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        value={siteUrl}
+                        onChange={(e) => setSiteUrl(e.target.value)}
                         fullWidth
                     />
                     <Stack direction="column" spacing={0.5}>
@@ -55,9 +49,8 @@ const ModalCreate = (props) => {
                         <Stack direction="row" spacing={1} alignItems="center">
                             <Typography>Off</Typography>
                             <Switch
-                                checked={active}
-                                defaultChecked
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setActive(e.target.checked)}
+                                checked={siteActive}
+                                onChange={toggleChecked}
                             />
                             <Typography>On</Typography>
                         </Stack>
@@ -67,7 +60,7 @@ const ModalCreate = (props) => {
                         type="submit"
                         fullWidth
                     >
-                        Create new site
+                        Update site
                     </Button>
                 </ModalForm>
             </MyModal>
@@ -75,4 +68,4 @@ const ModalCreate = (props) => {
     );
 };
 
-export default ModalCreate;
+export default ModalUpdate;

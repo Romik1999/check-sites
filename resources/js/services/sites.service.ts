@@ -25,9 +25,9 @@ export const SitesService = {
         }
     },
 
-    async updateSite(id: number, url: string, active: number) {
+    async updateSite(siteId: number, url: string, active: number) {
         try {
-            return axios.put(`/api/sites/${id}`, {url, active})
+            return axios.put(`/api/sites/${siteId}`, {url, active})
         } catch (error) {
             console.log(error);
         }

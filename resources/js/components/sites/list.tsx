@@ -15,15 +15,26 @@ import MySwitch from "../UI/MySwitch";
 import Loader from "../loader";
 import {useQuery} from "@tanstack/react-query";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ModalCreate from "./modal/modalCreate";
-import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import ModalUpdate from "./modal/modalUpdate";
 
 const SitesList = () => {
     const [open, setOpen] = useState(false);
+    const [openUpdate, setOpenUpdate] = useState(false);
     const [siteId, setSiteId] = useState(null);
+    const [siteUrl, setSiteUrl] = useState('');
+    const [siteActive, setSiteActive] = useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleOpenUpdate = () => setOpenUpdate(true);
+    const handleCloseUpdate = () => setOpenUpdate(false);
     const handleChangeSiteId = (siteId: number) => setSiteId(siteId)
+
+    const handleChangeForUpdate = (siteUrl: string, siteActive: boolean) => {
+        setSiteUrl(siteUrl)
+        setSiteActive(siteActive)
+    }
 
 
     const {isLoading, error, data} = useQuery({
@@ -65,6 +76,18 @@ const SitesList = () => {
                                         color="secondary"
                                         onClick={
                                             () => {
+                                                handleOpenUpdate()
+                                                handleChangeForUpdate(row.url, row.active)
+                                                handleChangeSiteId(row.id)
+                                            }
+                                        }
+                                    >
+                                        <EditIcon/>
+                                    </Button>
+                                    <Button
+                                        color="secondary"
+                                        onClick={
+                                            () => {
                                                 handleOpen()
                                                 handleChangeSiteId(row.id)
                                             }
@@ -83,6 +106,17 @@ const SitesList = () => {
                 handleOpen={handleOpen}
                 onClose={handleClose}
                 open={open}
+                siteId={siteId}
+            />
+            <ModalUpdate
+                handleClose={handleCloseUpdate}
+                handleOpen={handleOpenUpdate}
+                onClose={handleCloseUpdate}
+                open={openUpdate}
+                siteUrl={siteUrl}
+                siteActive={siteActive}
+                setSiteUrl={setSiteUrl}
+                setSiteActive={setSiteActive}
                 siteId={siteId}
             />
         </>
