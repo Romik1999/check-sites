@@ -28,38 +28,51 @@ const List = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">id</TableCell>
-                            <TableCell>Url</TableCell>
-                            <TableCell>response_code</TableCell>
-                            <TableCell>created_at</TableCell>
-                            <TableCell>Active</TableCell>
+                            <TableCell>Домен</TableCell>
+                            <TableCell>Код ответа</TableCell>
+                            <TableCell>Дата - Время</TableCell>
+                            <TableCell>Действия</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.data.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell align="center">{row.id}</TableCell>
-                                <TableCell component="th" scope="row"><a href={row.site.url}
-                                                                         target="_blank">{row.site.url}</a></TableCell>
-                                <TableCell>{row.response_code}</TableCell>
-                                <TableCell>{row.created_at}</TableCell>
-                                <TableCell>
-                                    <Button
-                                        color="secondary"
-                                        onClick={
-                                            () => {
-                                                handleOpen()
-                                                setLogId(row.id)
-                                            }
-                                        }
+                        {data.data.map((row) => {
+                            const date = new Date(row.created_at)
+                            const year = date.getFullYear()
+                            const month = date.getMonth()
+                            const day = date.getDay()
+                            const hours = date.getHours()
+                            const minutes = date.getMinutes()
+
+                            const currentDate = `${day}.${month}.${year}`
+                            const currentTime = `${hours}:${minutes}`
+                                return (
+                                    <TableRow
+                                        key={row.id}
+                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
-                                        <VisibilityIcon/>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                                        <TableCell align="center">{row.id}</TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <a href={row.site.url} target="_blank">{row.site.url}</a>
+                                        </TableCell>
+                                        <TableCell>{row.response_code}</TableCell>
+                                        <TableCell>{currentDate} - {currentTime}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                color="secondary"
+                                                onClick={
+                                                    () => {
+                                                        handleOpen()
+                                                        setLogId(row.id)
+                                                    }
+                                                }
+                                            >
+                                                <VisibilityIcon/>
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>

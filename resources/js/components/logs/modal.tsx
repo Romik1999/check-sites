@@ -18,6 +18,16 @@ const Modal = (props) => {
         if (isLoading) return (<Loader/>);
         if (error) return "An error has occurred: " + error.message;
 
+        const date = new Date(data.logs.created_at)
+        const year = date.getFullYear()
+        const month = date.getMonth()
+        const day = date.getDay()
+        const hours = date.getHours()
+        const minutes = date.getMinutes()
+
+        const currentDate = `${day}.${month}.${year}`
+        const currentTime = `${hours}:${minutes}`
+
         return (
             <>
                 <MyModal
@@ -25,7 +35,7 @@ const Modal = (props) => {
                     handleOpen={handleOpen}
                     onClose={handleClose}
                     open={open}
-                    modalTitle="Log info"
+                    modalTitle="Информация о логе"
                 >
                     <Stack>
                         <TableContainer component={Paper}>
@@ -36,27 +46,27 @@ const Modal = (props) => {
                                         <TableCell>{data.logs.id}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Site</TableCell>
+                                        <TableCell>Домен</TableCell>
                                         <TableCell>
                                             <a href={data.logs.site.url} target="_blank">{data.logs.site.url}</a>
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>response_code</TableCell>
+                                        <TableCell>Код ответа</TableCell>
                                         <TableCell>{data.logs.response_code}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>created_at</TableCell>
-                                        <TableCell>{data.logs.created_at}</TableCell>
+                                        <TableCell>Дата время</TableCell>
+                                        <TableCell>{currentDate} - {currentTime}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>response_header</TableCell>
+                                        <TableCell>Заголовки ответа</TableCell>
                                         <TableCell>
                                             <pre>{data.logs.response_header}</pre>
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>response_body</TableCell>
+                                        <TableCell>Тело ответа</TableCell>
                                         <TableCell>
                                             <pre>{data.logs.response_body}</pre>
                                         </TableCell>

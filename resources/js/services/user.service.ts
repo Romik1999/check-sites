@@ -33,6 +33,7 @@ export const UserService = {
         try {
             await axios.post('/api/logout');
             delete axios.defaults.headers.common['Authorization'];
+            CookieService.deleteCookie('laravel_token')
             return true;
         } catch (error) {
             console.error('Ошибка выхода:', error);

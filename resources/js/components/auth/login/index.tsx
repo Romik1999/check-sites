@@ -21,6 +21,7 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
                 fullWidth
             />
             <Button
+                color="success"
                 variant="contained"
                 type="submit"
                 fullWidth

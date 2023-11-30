@@ -1,5 +1,5 @@
 import React, {SyntheticEvent} from 'react';
-import {Box, Button, List, ListItem, ListItemIcon, MenuItem, MenuList, Typography} from "@mui/material";
+import {Box, Button, ListItemIcon, MenuItem, MenuList, Typography} from "@mui/material";
 import loginLogo from "../../assets/img/login-logo.svg"
 import {
     Sidebar, SidebarLogo, SidebarBottom, SidebarMenu
@@ -11,20 +11,22 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from "@mui/icons-material/Settings";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {UserService} from "../../services/user.service";
-import {login, logout} from "../../store/slice/auth";
+import {logout} from "../../store/slice/auth";
 import {useAppDispatch} from "../../utils/hook";
 
 const SideBarComponent = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const queryClient = useQueryClient();
 
     const {mutate, data} = useMutation({
         mutationKey: ['user'],
         mutationFn: () => UserService.logout(),
         onSuccess(data) {
             dispatch(logout(data.data))
+            queryClient.clear();
             navigate('/')
         }
     })
