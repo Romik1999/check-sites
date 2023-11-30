@@ -31,7 +31,7 @@ const ModalUpdate = (props) => {
     return (
         <>
             <MyModal
-                modalTitle="Update site"
+                modalTitle="Обновить сайт"
                 handleClose={handleClose}
                 handleOpen={handleOpen}
                 onClose={handleClose}
@@ -39,28 +39,29 @@ const ModalUpdate = (props) => {
             >
                 <ModalForm onSubmit={onSiteUpdate}>
                     <TextField
-                        label="Site url" variant="outlined" placeholder="Set siteUrl"
+                        label="Домен" variant="outlined" placeholder="Введите домен"
                         value={siteUrl}
                         onChange={(e) => setSiteUrl(e.target.value)}
                         fullWidth
                     />
                     <Stack direction="column" spacing={0.5}>
-                        <Typography>Check site:</Typography>
+                        <Typography>Проверка сайта:</Typography>
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Typography>Off</Typography>
+                            <Typography>Выкл</Typography>
                             <Switch
                                 checked={active}
                                 onChange={toggleChecked}
                             />
-                            <Typography>On</Typography>
+                            <Typography>Вкл</Typography>
                         </Stack>
                     </Stack>
                     <Button
-                        variant="contained"
                         type="submit"
+                        color="success"
+                        variant="contained"
                         fullWidth
                     >
-                        Update site
+                        Обновить сайт
                     </Button>
                 </ModalForm>
             </MyModal>

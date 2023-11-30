@@ -4,11 +4,10 @@ import THEME from "./index";
 const button: Components[`MuiButton`] = {
     styleOverrides: {
         root: {
-            height: '50px',
-            padding: `10px 20px`,
-            borderRadius: '8px',
+            borderRadius: '5px',
             boxSizing: "border-box",
             whiteSpace: 'nowrap',
+            minWidth: '32px',
         }
     },
     variants: [
@@ -41,7 +40,23 @@ const button: Components[`MuiButton`] = {
                     }
                 }
             }
-        }
+        },
+        {
+            props: { variant: 'icon' },
+            style: (theme) => {
+                const {palette} = THEME
+                return {
+                    backgroundColor: 'transparent',
+                    color: palette.primary.main,
+                    padding: '6px',
+
+                    '&:hover': {
+                        backgroundColor: palette.primary.main,
+                        color: palette.white
+                    }
+                }
+            }
+        },
     ]
 }
 

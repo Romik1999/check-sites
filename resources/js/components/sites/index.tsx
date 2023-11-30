@@ -21,7 +21,7 @@ const Sites = () => {
             >
                 <h1>Сайты</h1>
                 <Button
-                    color="secondary"
+                    variant="icon"
                     onClick={() => handleOpen()}
                 >
                     <AddIcon/>

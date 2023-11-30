@@ -63,6 +63,7 @@ const ModalCreate = (props) => {
                         </Stack>
                     </Stack>
                     <Button
+                        color="success"
                         variant="contained"
                         type="submit"
                         fullWidth

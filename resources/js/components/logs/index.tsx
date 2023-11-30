@@ -3,10 +3,7 @@ import List from "./list";
 
 const Logs = () => {
     return (
-        <div>
-            Logs components
-            <List/>
-        </div>
+        <List/>
     );
 };
 

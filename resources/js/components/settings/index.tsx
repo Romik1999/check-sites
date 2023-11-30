@@ -19,9 +19,11 @@ const SettingsComponent = (props) => {
     const updateMutation = useMutation({
         mutationKey: ['settings'],
         mutationFn: (obj) => SettingsService.updateSettings(obj.check_enabled, obj.telegram_enabled, obj.telegram_token, obj.telegram_chat_id),
-        onSettled: () => {
+        onSuccess(data){
             queryClient.invalidateQueries(['settings'])
-        },
+            alert(data.data)
+        }
+
     })
 
     const handleSubmit = (e) => {
@@ -65,7 +67,13 @@ const SettingsComponent = (props) => {
                 onChange={(e) => setTelegramChatId(e.target.value)}
                 fullWidth
             />
-            <Button type="submit" color="success">{data ? 'Обновить' : 'Сохранить'}</Button>
+            <Button
+                type="submit"
+                color="success"
+                variant="contained"
+            >
+                {data ? 'Обновить' : 'Сохранить'}
+            </Button>
         </SettingsForm>
     );
 };

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {
     Button,
-    Paper,
+    Paper, Stack,
     Table,
     TableBody,
     TableCell,
@@ -76,29 +76,31 @@ const SitesList = () => {
                                         id={row.id}/>
                                 </TableCell>
                                 <TableCell>
-                                    <Button
-                                        color="secondary"
-                                        onClick={
-                                            () => {
-                                                handleOpenUpdate()
-                                                handleChangeForUpdate(row.url, row.active)
-                                                handleChangeSiteId(row.id)
+                                    <Stack direction="row" spacing={1} alignItems="center">
+                                        <Button
+                                            variant="icon"
+                                            onClick={
+                                                () => {
+                                                    handleOpenUpdate()
+                                                    handleChangeForUpdate(row.url, row.active)
+                                                    handleChangeSiteId(row.id)
+                                                }
                                             }
-                                        }
-                                    >
-                                        <EditIcon/>
-                                    </Button>
-                                    <Button
-                                        color="secondary"
-                                        onClick={
-                                            () => {
-                                                handleOpen()
-                                                handleChangeSiteId(row.id)
+                                        >
+                                            <EditIcon/>
+                                        </Button>
+                                        <Button
+                                            variant="icon"
+                                            onClick={
+                                                () => {
+                                                    handleOpen()
+                                                    handleChangeSiteId(row.id)
+                                                }
                                             }
-                                        }
-                                    >
-                                        <DeleteIcon/>
-                                    </Button>
+                                        >
+                                            <DeleteIcon/>
+                                        </Button>
+                                    </Stack>
                                 </TableCell>
                             </TableRow>
                         ))}

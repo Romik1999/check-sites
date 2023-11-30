@@ -39,6 +39,9 @@ const palette = {
     },
     black:{
         main: colors.Black[100]
+    },
+    success:{
+        main: colors.Green[100]
     }
 }
 

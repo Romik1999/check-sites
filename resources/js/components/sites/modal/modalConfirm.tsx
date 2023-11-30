@@ -33,8 +33,15 @@ const ModalConfirm = (props) => {
                 onClose={handleClose}
                 open={open}
             >
-                <Stack direction="row" spacing={2} justifyContent="center">
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="center"
+                    sx={{padding: '20px 0'}}
+
+                >
                     <Button
+                        variant="contained"
                         color="success"
                         onClick={
                             () => {
@@ -46,6 +53,7 @@ const ModalConfirm = (props) => {
                         Да
                     </Button>
                     <Button
+                        variant="contained"
                         color="error"
                         onClick={() => handleClose()}
                     >
