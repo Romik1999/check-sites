@@ -23,7 +23,7 @@ const SitesList = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     const [siteId, setSiteId] = useState(null);
     const [siteUrl, setSiteUrl] = useState('');
-    const [siteActive, setSiteActive] = useState(true);
+    const [active, setActive] = useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -31,11 +31,10 @@ const SitesList = () => {
     const handleCloseUpdate = () => setOpenUpdate(false);
     const handleChangeSiteId = (siteId: number) => setSiteId(siteId)
 
-    const handleChangeForUpdate = (siteUrl: string, siteActive: boolean) => {
+    const handleChangeForUpdate = (siteUrl: string, active: boolean) => {
         setSiteUrl(siteUrl)
-        setSiteActive(siteActive)
+        setActive(active)
     }
-
 
     const {isLoading, error, data} = useQuery({
         queryKey: ['sites'],
@@ -69,7 +68,12 @@ const SitesList = () => {
                                     <a href={row.url} target="_blank">{row.url}</a>
                                 </TableCell>
                                 <TableCell>
-                                    <MySwitch active={row.active} url={row.url} id={row.id}/>
+                                    <MySwitch
+                                        defaultActive={row.active}
+                                        active={active}
+                                        setActive={setActive}
+                                        url={row.url}
+                                        id={row.id}/>
                                 </TableCell>
                                 <TableCell>
                                     <Button
@@ -114,9 +118,9 @@ const SitesList = () => {
                 onClose={handleCloseUpdate}
                 open={openUpdate}
                 siteUrl={siteUrl}
-                siteActive={siteActive}
+                active={active}
                 setSiteUrl={setSiteUrl}
-                setSiteActive={setSiteActive}
+                setActive={setActive}
                 siteId={siteId}
             />
         </>

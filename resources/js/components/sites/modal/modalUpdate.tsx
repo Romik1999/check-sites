@@ -6,26 +6,26 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
 
 const ModalUpdate = (props) => {
-    const {handleClose, handleOpen, siteId, open, siteUrl, setSiteUrl, siteActive, setSiteActive, ...rest} = props
+    const {handleClose, handleOpen, siteId, open, siteUrl, setSiteUrl, active, setActive, ...rest} = props
 
     const queryClient = useQueryClient();
 
     const updateMutation = useMutation({
         mutationKey: ['sites'],
-        mutationFn: (obj) => SitesService.updateSite(obj.siteId, obj.siteUrl, obj.siteActive),
+        mutationFn: (obj) => SitesService.updateSite(obj.siteId, obj.siteUrl, obj.active),
         onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
-            setSiteActive(siteActive)
+            setActive(active)
             handleClose()
         },
     })
 
     const toggleChecked = (event) => {
-        setSiteActive(event.target.checked);
+        setActive(event.target.checked);
     };
     const onSiteUpdate = (event) => {
         event.preventDefault()
-        updateMutation.mutate({siteId, siteUrl, siteActive})
+        updateMutation.mutate({siteId, siteUrl, active})
     }
 
     return (
@@ -49,7 +49,7 @@ const ModalUpdate = (props) => {
                         <Stack direction="row" spacing={1} alignItems="center">
                             <Typography>Off</Typography>
                             <Switch
-                                checked={siteActive}
+                                checked={active}
                                 onChange={toggleChecked}
                             />
                             <Typography>On</Typography>
