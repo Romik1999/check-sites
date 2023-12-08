@@ -13,27 +13,32 @@ import {SitesService} from "../../services/sites.service";
 import ModalConfirm from "./modal/modalConfirm";
 import MySwitch from "../UI/MySwitch";
 import Loader from "../loader";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import ModalUpdate from "./modal/modalUpdate";
 
+type Site = {
+    id: string,
+    url: string,
+    active: boolean,
+}
+
 const SitesList = () => {
     const [open, setOpen] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
-    const [siteId, setSiteId] = useState(null);
-    const [siteUrl, setSiteUrl] = useState('');
-    const [active, setActive] = useState(true);
+
+    const [editingSite, setEditingSite] = useState<Site|null>(null)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleOpenUpdate = () => setOpenUpdate(true);
-    const handleCloseUpdate = () => setOpenUpdate(false);
-    const handleChangeSiteId = (siteId: number) => setSiteId(siteId)
-
-    const handleChangeForUpdate = (siteUrl: string, active: boolean) => {
-        setSiteUrl(siteUrl)
-        setActive(active)
+    const handleOpenUpdate = (data:{id: any, url: any, active: boolean}) => {
+        setEditingSite(data)
+        setOpenUpdate(true)
+    }
+    const handleCloseUpdate = () => {
+        setOpenUpdate(false)
+        setEditingSite(null)
     }
 
     const {isLoading, error, data} = useQuery({
@@ -41,9 +46,21 @@ const SitesList = () => {
         queryFn: () => SitesService.getAll(),
         select: ({data}) => data
     })
+    const queryClient = useQueryClient();
+
+    const updateMutation = useMutation({
+        mutationFn: ({id, url, active}:{id: any, url: any, active: any}) => SitesService.updateSite(id, url, active),
+        onSettled: () => {
+            queryClient.invalidateQueries(['sites'])
+        },
+    })
 
     if (isLoading) return (<Loader/>);
     if (error) return "An error has occurred: " + error.message;
+
+    const onToggle =(id: any, url: any, active: any)=>{
+        updateMutation.mutate({id, url, active})
+    }
 
     return (
         <>
@@ -69,11 +86,11 @@ const SitesList = () => {
                                 </TableCell>
                                 <TableCell>
                                     <MySwitch
-                                        defaultActive={row.active}
-                                        active={active}
-                                        setActive={setActive}
+                                        active={Boolean(row.active)}
                                         url={row.url}
-                                        id={row.id}/>
+                                        id={row.id}
+                                        onSwitch={onToggle}
+                                    />
                                 </TableCell>
                                 <TableCell>
                                     <Stack direction="row" spacing={1} alignItems="center">
@@ -81,9 +98,7 @@ const SitesList = () => {
                                             variant="icon"
                                             onClick={
                                                 () => {
-                                                    handleOpenUpdate()
-                                                    handleChangeForUpdate(row.url, row.active)
-                                                    handleChangeSiteId(row.id)
+                                                    handleOpenUpdate({id:row.id, url:row.url, active:row.active})
                                                 }
                                             }
                                         >
@@ -94,7 +109,6 @@ const SitesList = () => {
                                             onClick={
                                                 () => {
                                                     handleOpen()
-                                                    handleChangeSiteId(row.id)
                                                 }
                                             }
                                         >
@@ -112,18 +126,16 @@ const SitesList = () => {
                 handleOpen={handleOpen}
                 onClose={handleClose}
                 open={open}
-                siteId={siteId}
             />
             <ModalUpdate
                 handleClose={handleCloseUpdate}
                 handleOpen={handleOpenUpdate}
                 onClose={handleCloseUpdate}
                 open={openUpdate}
-                siteUrl={siteUrl}
-                active={active}
-                setSiteUrl={setSiteUrl}
-                setActive={setActive}
-                siteId={siteId}
+                siteUrl={editingSite.url}
+                siteId={editingSite.id}
+                active={editingSite.active}
+                onSwitch={onToggle}
             />
         </>
     );

@@ -6,7 +6,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {SitesService} from "../../../services/sites.service";
 
 const ModalUpdate = (props) => {
-    const {handleClose, handleOpen, siteId, open, siteUrl, setSiteUrl, active, setActive, ...rest} = props
+    const {handleClose, handleOpen, siteId, open, siteUrl, active, onSwitch, ...rest} = props
 
     const queryClient = useQueryClient();
 
@@ -15,14 +15,10 @@ const ModalUpdate = (props) => {
         mutationFn: (obj) => SitesService.updateSite(obj.siteId, obj.siteUrl, obj.active),
         onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
-            setActive(active)
             handleClose()
         },
     })
 
-    const toggleChecked = (event) => {
-        setActive(event.target.checked);
-    };
     const onSiteUpdate = (event) => {
         event.preventDefault()
         updateMutation.mutate({siteId, siteUrl, active})
