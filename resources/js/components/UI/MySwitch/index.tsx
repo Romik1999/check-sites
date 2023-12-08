@@ -1,14 +1,11 @@
-import React, {useState} from 'react';
-import {FormControlLabel, Stack, Switch, Typography} from "@mui/material";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {SitesService} from "../../../services/sites.service";
+import React from 'react';
+import {Stack, Switch, Typography} from "@mui/material";
 
 const MySwitch = (props: any) => {
-    const {defaultActive, active, setActive, id, url, onSwitch} = props
+    const {active, id, url, onSwitch} = props
 
 
     const toggleChecked = (event) => {
-        console.log(11111111);
         if (onSwitch){
             onSwitch(id, url, !active)
         }
