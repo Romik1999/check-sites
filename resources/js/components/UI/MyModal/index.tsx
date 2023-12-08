@@ -1,12 +1,11 @@
-import React, {useState, createContext} from 'react';
-import {Button, Fade, Modal} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from 'react';
+import {Fade, Modal} from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import {ModalTop, ModalWrapper} from "../../sites/modal/styled";
 import CloseIcon from "@mui/icons-material/Close";
 
-const MyModal = (props:any) => {
-    const { modalTitle, children, modalState, open, setOpen, handleOpen, handleClose, ...rest} = props
+const MyModal = (props: any) => {
+    const {modalTitle, children, open, onClose, ...rest} = props
 
     return (
         <>
@@ -15,7 +14,7 @@ const MyModal = (props:any) => {
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={open}
-                onClose={handleClose}
+                onClose={onClose}
                 closeAfterTransition
                 slots={{backdrop: Backdrop}}
                 slotProps={{
@@ -28,7 +27,7 @@ const MyModal = (props:any) => {
                     <ModalWrapper>
                         <ModalTop>
                             <div className="modal__title">{modalTitle}</div>
-                            <CloseIcon onClick={() => handleClose()}/>
+                            <CloseIcon onClick={onClose}/>
                         </ModalTop>
                         {children}
                     </ModalWrapper>

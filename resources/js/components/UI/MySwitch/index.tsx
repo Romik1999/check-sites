@@ -4,8 +4,7 @@ import {Stack, Switch, Typography} from "@mui/material";
 const MySwitch = (props: any) => {
     const {active, id, url, onSwitch} = props
 
-
-    const toggleChecked = (event) => {
+    const toggleChecked = () => {
         if (onSwitch){
             onSwitch(id, url, !active)
         }
