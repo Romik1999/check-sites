@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {
     Button,
     Paper,
-    Stack,
+    Stack, Switch,
     Table,
     TableBody,
     TableCell,
@@ -39,10 +39,10 @@ const SitesList = () => {
     })
     const queryClient = useQueryClient();
 
-    const openModalConfirm = () => setModal({modalConfirm: true});
-    const closeModalConfirm = () => setModal({modalConfirm: false});
-    const openModalUpdate = () => setModal({modalUpdate: true});
-    const closeModalUpdate = () => setModal({modalUpdate: false});
+    const openModalConfirm = () => setModal({...modal, modalConfirm: true});
+    const closeModalConfirm = () => setModal({...modal, modalConfirm: false});
+    const openModalUpdate = () => setModal({...modal, modalUpdate: true});
+    const closeModalUpdate = () => setModal({...modal, modalUpdate: false});
 
     const handleOpenUpdate = (data: { id: any, url: any, active: boolean }) => {
         setEditingSite(data)
@@ -60,8 +60,9 @@ const SitesList = () => {
 
     const updateMutation = useMutation({
         mutationFn: ({id, url, active}: { id: any, url: any, active: any }) => SitesService.updateSite(id, url, active),
-        onSettled: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
+            closeModalUpdate()
         },
     })
 
@@ -82,6 +83,11 @@ const SitesList = () => {
 
     const onSiteDelete = (id: number) => {
         deleteMutation.mutate(id)
+    }
+
+    const onSiteUpdate = (event) => {
+        event.preventDefault()
+        updateMutation.mutate({id: editingSite.id, url: editingSite.url, active: editingSite.active})
     }
 
     return (
@@ -131,7 +137,7 @@ const SitesList = () => {
                                             variant="icon"
                                             onClick={
                                                 () => {
-                                                    handleOpenUpdate({id: row.id})
+                                                    handleOpenUpdate({id: row.id, url: row.url, active: row.active})
                                                     openModalConfirm()
                                                 }
                                             }
@@ -185,21 +191,20 @@ const SitesList = () => {
                 onClose={closeModalUpdate}
                 open={modal.modalUpdate}
             >
-                <ModalForm>
+                <ModalForm onSubmit={onSiteUpdate}>
                     <TextField
                         label="Домен" variant="outlined" placeholder="Введите домен"
                         value={editingSite.url}
-                        onChange={(e) => setSiteUrl(e.target.value)}
+                        onChange={(e) => setEditingSite({...editingSite, url: e.target.value})}
                         fullWidth
                     />
                     <Stack direction="column" spacing={0.5}>
                         <Typography>Проверка сайта:</Typography>
                         <Stack direction="row" spacing={1} alignItems="center">
                             <Typography>Выкл</Typography>
-                            <MySwitch
-                                active={Boolean(editingSite.active)}
-                                url={editingSite.url}
-                                id={editingSite.id}
+                            <Switch
+                                checked={Boolean(editingSite.active)}
+                                onChange={(e) => setEditingSite({...editingSite, active: e.target.checked})}
                             />
                             <Typography>Вкл</Typography>
                         </Stack>
