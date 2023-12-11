@@ -1,7 +1,7 @@
 import React from 'react';
 import {Fade, Modal} from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
-import {ModalTop, ModalWrapper} from "../../sites/modal/styled";
+import {ModalTop, ModalWrapper} from "../../sites/styled";
 import CloseIcon from "@mui/icons-material/Close";
 
 const MyModal = (props: any) => {

@@ -19,7 +19,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import MyModal from "../UI/MyModal";
-import {ModalForm} from "./modal/styled";
+import {ModalForm} from "./styled";
 
 type Site = {
     id: string,
