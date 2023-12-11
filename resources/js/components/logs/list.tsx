@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {useQuery} from "@tanstack/react-query";
 import Loader from "../loader";
 import {LogsService} from "../../services/logs.service";
-import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Modal from "./modal";
+import MyModal from "../UI/MyModal";
 
 const List = () => {
     const [open, setOpen] = useState(false);
-    const [logId, setLogId] = useState(null);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -62,7 +62,6 @@ const List = () => {
                                                 onClick={
                                                     () => {
                                                         handleOpen()
-                                                        setLogId(row.id)
                                                     }
                                                 }
                                             >
@@ -76,13 +75,51 @@ const List = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Modal
-                handleClose={handleClose}
-                handleOpen={handleOpen}
-                onClose={handleClose}
+
+            <MyModal
+                modalTitle="Информация о логе"
+                onClose={handleOpen}
                 open={open}
-                logId={logId}
-            />
+            >
+                {/*<Stack>*/}
+                {/*    <TableContainer component={Paper}>*/}
+                {/*        <Table sx={{minWidth: 300}} aria-label="simple table">*/}
+                {/*            <TableBody>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Id</TableCell>*/}
+                {/*                    <TableCell>{data.logs.id}</TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Домен</TableCell>*/}
+                {/*                    <TableCell>*/}
+                {/*                        <a href={data.logs.site.url} target="_blank">{data.logs.site.url}</a>*/}
+                {/*                    </TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Код ответа</TableCell>*/}
+                {/*                    <TableCell>{data.logs.response_code}</TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Дата время</TableCell>*/}
+                {/*                    <TableCell>{currentDate} - {currentTime}</TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Заголовки ответа</TableCell>*/}
+                {/*                    <TableCell>*/}
+                {/*                        <pre>{data.logs.response_header}</pre>*/}
+                {/*                    </TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*                <TableRow>*/}
+                {/*                    <TableCell>Тело ответа</TableCell>*/}
+                {/*                    <TableCell>*/}
+                {/*                        <pre>{data.logs.response_body}</pre>*/}
+                {/*                    </TableCell>*/}
+                {/*                </TableRow>*/}
+                {/*            </TableBody>*/}
+                {/*        </Table>*/}
+                {/*    </TableContainer>*/}
+                {/*</Stack>*/}
+            </MyModal>
         </>
     );
 };
