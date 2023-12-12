@@ -2,11 +2,11 @@ import React from 'react';
 import {Stack, Switch, Typography} from "@mui/material";
 
 const MySwitch = (props: any) => {
-    const {active, id, url, onSwitch} = props
+    const {active, onSwitch} = props
 
     const toggleChecked = () => {
         if (onSwitch){
-            onSwitch(id, url, !active)
+            onSwitch(!active)
         }
     };
 

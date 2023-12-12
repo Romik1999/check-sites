@@ -1,5 +1,6 @@
 import axios from "axios";
 import {CookieService} from "./cookie.service";
+import {Site} from "../common/types/site";
 
 interface IData {
     id: number,
@@ -25,9 +26,9 @@ export const SitesService = {
         }
     },
 
-    async updateSite(siteId: number, url: string, active: number) {
+    async updateSite({id, url, active}: Site) {
         try {
-            return axios.put(`/api/sites/${siteId}`, {url, active})
+            return axios.put(`/api/sites/${id}`, {url, active: active ? 1 : 0})
         } catch (error) {
             console.log(error);
         }

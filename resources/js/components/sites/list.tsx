@@ -20,12 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import MyModal from "../UI/MyModal";
 import {ModalForm} from "./styled";
-
-type Site = {
-    id: string,
-    url: string,
-    active: boolean,
-}
+import {Site} from "../../common/types/site";
 
 const SitesList = () => {
     const [modal, setModal] = useState({
@@ -37,12 +32,13 @@ const SitesList = () => {
         url: '',
         active: false,
     })
+    const [modalError, setModalError] = useState('')
     const queryClient = useQueryClient();
 
-    const openModalConfirm = () => setModal({...modal, modalConfirm: true});
-    const closeModalConfirm = () => setModal({...modal, modalConfirm: false});
-    const openModalUpdate = () => setModal({...modal, modalUpdate: true});
-    const closeModalUpdate = () => setModal({...modal, modalUpdate: false});
+    const openModalConfirm = () => setModal(prev=>({...prev, modalConfirm: true}));
+    const closeModalConfirm = () => setModal(prev=>({...prev, modalConfirm: false}));
+    const openModalUpdate = () => setModal(prev=>({...prev, modalUpdate: true}));
+    const closeModalUpdate = () => setModal(prev=>({...prev, modalUpdate: false}));
 
     const handleOpenUpdate = (data: { id: any, url: any, active: boolean }) => {
         setEditingSite(data)
@@ -57,19 +53,23 @@ const SitesList = () => {
         select: ({data}) => data
     })
 
-
     const updateMutation = useMutation({
-        mutationFn: ({id, url, active}: { id: any, url: any, active: any }) => SitesService.updateSite(id, url, active),
+        mutationFn: (site: Site) => SitesService.updateSite(site),
+        onError: (error)=>{
+            setModalError(error.message)
+        },
         onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
             closeModalUpdate()
+            setModalError('')
         },
     })
 
     const deleteMutation = useMutation({
         mutationFn: (id: number) => SitesService.deleteSite(id),
-        onSettled: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries(['sites'])
+            closeModalConfirm()
         },
     })
 
@@ -115,9 +115,7 @@ const SitesList = () => {
                                 <TableCell>
                                     <MySwitch
                                         active={Boolean(row.active)}
-                                        url={row.url}
-                                        id={row.id}
-                                        onSwitch={onToggle}
+                                        onSwitch={(active)=>onToggle(row.id, row.url, active)}
                                     />
                                 </TableCell>
                                 <TableCell>
@@ -167,12 +165,7 @@ const SitesList = () => {
                     <Button
                         variant="contained"
                         color="success"
-                        onClick={
-                            () => {
-                                onSiteDelete(editingSite.id)
-                                closeModalConfirm()
-                            }
-                        }
+                        onClick={()=>onSiteDelete(editingSite.id)}
                     >
                         Да
                     </Button>
@@ -191,11 +184,12 @@ const SitesList = () => {
                 onClose={closeModalUpdate}
                 open={modal.modalUpdate}
             >
+                {error}
                 <ModalForm onSubmit={onSiteUpdate}>
                     <TextField
                         label="Домен" variant="outlined" placeholder="Введите домен"
                         value={editingSite.url}
-                        onChange={(e) => setEditingSite({...editingSite, url: e.target.value})}
+                        onChange={(e) => setEditingSite(prev => ({...prev, url: e.target.value}))}
                         fullWidth
                     />
                     <Stack direction="column" spacing={0.5}>
@@ -204,7 +198,7 @@ const SitesList = () => {
                             <Typography>Выкл</Typography>
                             <Switch
                                 checked={Boolean(editingSite.active)}
-                                onChange={(e) => setEditingSite({...editingSite, active: e.target.checked})}
+                                onChange={(e) => setEditingSite(prev => ({...prev, active: e.target.checked}))}
                             />
                             <Typography>Вкл</Typography>
                         </Stack>
@@ -219,8 +213,6 @@ const SitesList = () => {
                     </Button>
                 </ModalForm>
             </MyModal>
-
-
         </>
     );
 };
