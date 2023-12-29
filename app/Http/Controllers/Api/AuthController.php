@@ -29,8 +29,6 @@ class AuthController extends Controller
 
     public function logout(Request $request){
 
-        $this->middleware('logout.middleware');
-        
         if($request->user()){
             $request->user()->tokens()->delete();
         }
